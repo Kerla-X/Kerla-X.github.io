@@ -11,7 +11,7 @@
 }
 
 body{
-  margin:0;
+  margin:0;a
   font-family:system-ui,-apple-system,sans-serif;
   background:#f4f1ea;
   color:#222;
@@ -5162,7 +5162,6 @@ details.learningGoals{
 <div class="workStateControls">
 <button class="action compactAction" id="saveWorkState" type="button"><span class="desktopBtnText">Arbeitsstand sichern</span><span class="mobileBtnText">Sichern</span></button>
 <button class="action secondary compactAction" id="loadWorkState" type="button"><span class="desktopBtnText">Arbeitsstand laden</span><span class="mobileBtnText">Laden</span></button>
-<button aria-label="Drucken" class="action secondary compactAction" id="printWorkState" title="Drucken" type="button">🖨</button>
 <button aria-label="Analoge Version öffnen" class="action secondary compactAction" id="openAnalogVersion" title="Analoge Version öffnen" type="button"><span class="desktopBtnText">Analoge Version</span><span class="mobileBtnText">Analog</span></button>
 <input accept=".html,text/html" hidden="" id="loadWorkStateFile" type="file"/>
 </div>
@@ -5215,7 +5214,12 @@ details.learningGoals{
 <div class="palette" id="userPalette"></div>
 <div aria-live="polite" class="colorShares" id="colorShares"></div>
 <div class="inlineHint paletteHint">
-<p>Wähle eine Farbe, benenne sie und setze sie auf der Welt ein. Benenne alle verwendeten Farben, damit die Aufteilung eindeutig ist.</p>
+<ul>
+<li>Wähle eine Farbe und benenne sie.</li>
+<li>Setze sie auf der Welt ein, indem du zuerst das Farbfeld anklickst und dann in der Welt ein Quadrat anklickst, das du so färben willst.</li>
+<li>Gib allen Farben, die du brauchst, einen eindeutigen Namen: Was meinst du damit, zum Beispiel Häuser, Freunde …?</li>
+<li>Vergiss nicht, deine Welt zu speichern.</li>
+</ul>
 </div>
 <div class="buttons">
 <button class="action secondary" id="reset">
@@ -5235,11 +5239,11 @@ details.learningGoals{
 <p class="taskInstruction">
           Gestalte deine erste Welt. Wähle Farben, gib ihnen eigene Bedeutungen
           und zeige damit, was für dich zu einem guten Leben gehört. Du kannst
-          auch die bereits vorhandenen Farben benennen oder verändern.
+          auch die bereits vorhandenen Farben benennen oder verändern. Denke weit:
+          Du kannst z. B. Wohnraum nennen, aber auch Freundschaft oder etwas ganz
+          anderes, das du für ein gutes Leben wichtig findest.
         </p>
-<div class="inlineHint saveReminder">
-<p>Vergiss nicht, deine Welt zu speichern.</p>
-</div>
+
 <p class="taskQuestion">
           Was ist dir für ein gutes Leben besonders wichtig? Erkläre, wie
           deine Welt das zeigt.
@@ -5267,7 +5271,7 @@ details.learningGoals{
             Gestalte die Welt so um, dass du und zwei weitere Personen dort gut
             leben können.
           </p>
-<div class="inlineHint saveReminder"><p>Vergiss nicht, deine Welt zu speichern.</p></div>
+
 <p class="taskQuestion">
             Was hast du in der zweiten Welt verändert? Und warum?
           </p>
@@ -5298,7 +5302,7 @@ details.learningGoals{
             leben können. Beide gestalten diese gemeinsame Welt in ihrer eigenen
             Simulation gleich.
           </p>
-<div class="inlineHint saveReminder"><p>Vergiss nicht, deine Welt zu speichern.</p></div>
+
 <p class="taskQuestion">
             Was war euch beiden wichtig? Wo wart ihr unterschiedlicher Meinung?
             Worauf musstet ihr euch einigen?
@@ -5412,13 +5416,13 @@ details.learningGoals{
 <div class="treeStoryMedia">
 <img alt="Magischer Baum auf one.zero" class="treeStoryImage" src="baum.png"/>
 </div>
-</div><p class="taskInstruction" data-t="t3.goal">Wähle aus, was du in dieser Runde bekommen möchtest. Beim Klick auf «Runde abschliessen» werden die dafür nötigen Früchte vom Baum genommen.</p><div class="requirementGrid" id="taskCRequirements"></div><div><div class="pixelTree" id="pixelTree"><div class="pixelCrown"></div><div class="pixelTrunk"></div><div id="fruitLayer"></div></div><div class="simNumbers"><strong><span data-t="sim.tree">Am Baum</span>: <span id="treeCount">14</span>/<span id="treeMaxCount">14</span></strong><strong><span data-t="sim.round">Runde</span>: <span id="roundCount">1</span></strong></div></div><div aria-live="polite" class="thoughtHint" id="personalThoughtHint"></div><div class="roundActions">
+</div><p class="taskInstruction" data-t="t3.goal">Wähle aus, was du in dieser Runde bekommen möchtest. Beim Klick auf «Runde abschliessen» werden die dafür nötigen Früchte (gelbe Quadrate) vom Baum genommen. Spiele 6 Runden und beobachte, wie sich der Bestand verändert. Probiere, dir Needs oder Desires zu erfüllen, aber achte auch darauf, wie es dem Baum geht.</p><div class="requirementGrid" id="taskCRequirements"></div><div><div class="pixelTree" id="pixelTree"><div class="pixelCrown"></div><div class="pixelTrunk"></div><div id="fruitLayer"></div></div><div class="simNumbers"><strong><span data-t="sim.tree">Am Baum</span>: <span id="treeCount">22</span>/<span id="treeMaxCount">24</span></strong><strong><span data-t="sim.round">Runde</span>: <span id="roundCount">1</span>/6</strong></div></div><div aria-live="polite" class="thoughtHint" id="personalThoughtHint"></div><div class="roundActions">
 <button class="action" data-t="sim.finish" id="finishRound">Runde abschliessen</button>
 <button class="action secondary" id="resetPersonalRounds" type="button">Runden zurücksetzen</button>
 </div></article>
 <article class="learnCard phase2Lockable phase2Locked" id="learn4">
 <span class="taskLabel">Aufgabe D</span>
-<h2>Was hast du beobachtet?</h2><p class="phase2LockHint">Führe zuerst mindestens drei Runden in Aufgabe C durch.</p>
+<h2>Was hast du beobachtet?</h2><p class="phase2LockHint">Spiele zuerst 6 Runden in Aufgabe C.</p>
 <div class="taskQuestion reflectionPrompt">
 <strong>Denke über deine Runden nach.</strong>
 <p>Gehe dabei auf diese Fragen ein:</p>
@@ -5433,7 +5437,7 @@ details.learningGoals{
 <button class="action compactAction" id="checkIndividualReflection" type="button">Reflexion speichern</button>
 <div class="theoryBox hidden" id="individualTheory">
 <strong>Vergleiche deine Beobachtungen mit dieser Erkenntnis:</strong>
-<p><strong>Nutzung heute beeinflusst Möglichkeiten morgen.</strong> Wie viele Früchte nachwachsen, ist begrenzt und nicht vollständig vorhersehbar. Auch wenn du nicht genau weisst, was später passiert, kannst du überlegen, was später noch möglich sein soll.</p>
+<p><strong>Nutzung heute beeinflusst Möglichkeiten morgen.</strong> Wie viele Früchte nachwachsen, ist begrenzt und nicht vollständig vorhersehbar. Auch wenn du nicht genau weisst, was später passiert, kannst du überlegen, was später noch möglich sein soll – und wie du das beeinflussen könntest.</p>
 <label class="understoodCheck">
 <input id="reflectionUnderstood" type="checkbox"/>
 <span>Das habe ich so verstanden.</span>
@@ -5463,7 +5467,7 @@ details.learningGoals{
 <span class="taskLabel">Aufgabe E</span>
 <h2>Jetzt arbeitet ihr zu zweit</h2><p class="phase2LockHint">Lies zuerst beide Erklärungen zu Needs und Desires und bestätige sie.</p>
 <div class="taskInstruction partnerTaskCombined">
-<p>Setzt euch zu zweit zusammen. Ihr seid Person A und Person B. Jede Person bekommt zwei vorgegebene Needs und zwei Desires. Besprecht zuerst, wie ihr die Früchte ernten wollt, und schreibt eure Abmachung hier auf. Entscheidet danach gemeinsam, wofür ihr in jeder Runde Früchte erntet. Für jede Sache braucht es zwei Früchte. Die Früchte reichen nicht immer für alles.</p>
+<p>Setzt euch zu zweit zusammen. Ihr seid Person A und Person B. Jede Person bekommt zwei vorgegebene Needs und zwei Desires. Besprecht zuerst, wie ihr die Früchte ernten wollt, und schreibt eure Abmachung hier auf. Entscheidet danach gemeinsam, wofür ihr in jeder Runde Früchte erntet. Für jede Sache braucht es zwei Früchte. Die Früchte reichen nicht immer für alles. Spielt 6 Runden und beobachtet, wie sich der Bestand verändert und wie es dem Baum geht.</p>
 <div class="labField partnerAgreementField">
 <label for="groupRule">Eure Abmachung</label>
 <textarea data-e-save="groupRule" id="groupRule" placeholder="Schreibt hier auf, wie ihr die Früchte ernten wollt."></textarea>
@@ -5474,8 +5478,8 @@ details.learningGoals{
 <div class="groupTreeRuleLayout">
 <div class="groupTreeColumn">
 <div class="socialStatus">
-<strong>Am Baum: <span id="gTree">14</span>/14</strong>
-<strong>Runde: <span id="gRound">1</span></strong>
+<strong>Am Baum: <span id="gTree">22</span>/24</strong>
+<strong>Runde: <span id="gRound">1</span>/6</strong>
 </div>
 <div class="pixelTree groupTree">
 <div class="pixelCrown"></div>
@@ -5502,7 +5506,7 @@ details.learningGoals{
 </article>
 <article class="learnCard phase2Lockable phase2Locked" id="learn7">
 <span class="taskLabel">Aufgabe F</span>
-<h2>Was hat sich verändert?</h2><p class="phase2LockHint">Führt zuerst mindestens drei gemeinsame Runden in Aufgabe E durch.</p>
+<h2>Was hat sich verändert?</h2><p class="phase2LockHint">Spielt zuerst 6 gemeinsame Runden in Aufgabe E.</p>
 <div class="taskQuestion reflectionPrompt">
 <strong>Denkt über eure gemeinsamen Runden nach.</strong>
 <p>Geht dabei auf diese Fragen ein:</p>
@@ -5517,14 +5521,14 @@ details.learningGoals{
 
 <div class="phaseNav bottomNav">
 <button class="action secondary phaseNext" data-t="nav.back" id="backToPhase1Bottom">← Zurück</button>
-<button class="action phaseNext" id="toPhase3" type="button">Was hat one.zero mit der Erde zu tun? →</button>
+<button class="action phaseNext" id="toPhase3" type="button">Was hat one.zero mit einem guten Leben auf der Erde zu tun? →</button>
 </div></div>
 <div class="phaseView" id="phase3">
 <section class="panel phase3TitleBlock">
 <div class="phase3MissionCopy">
 <span class="missionKicker">Deine Mission</span>
-<h3>Herausfinden, was one.zero mit der Erde zu tun hat</h3>
-<p>Untersuche nun in einem Mystery die Frage: <strong>Was hat one.zero mit der Erde zu tun?</strong> Bei einem Mystery arbeitest du mit verschiedenen Hinweisen. Du ordnest Karten, verbindest wichtige Zusammenhänge und entwickelst daraus eine eigene Erklärung. Es gibt nicht nur eine richtige Lösung.</p>
+<h3>Herausfinden, was one.zero mit einem guten Leben auf der Erde zu tun hat</h3>
+<p>Untersuche nun in einem Mystery die Frage: <strong>Was hat one.zero mit einem guten Leben auf der Erde zu tun? Siehst du Gemeinsamkeiten – und was funktioniert anders?</strong> Bei einem Mystery arbeitest du mit verschiedenen Hinweisen. Du ordnest Karten, verbindest wichtige Zusammenhänge und entwickelst daraus eine eigene Erklärung. Es gibt nicht nur eine richtige Lösung.</p>
 <div class="learningGoalsShell"><details class="learningGoals">
 <summary><span aria-hidden="true" class="learningGoalsArrow">›</span><strong>Lernziele</strong></summary>
 <div class="learningGoalsBody"><ul>
@@ -5540,7 +5544,7 @@ details.learningGoals{
 <section class="phase3Tasks">
 <article class="taskCard phase3TaskCard" id="phase3TaskA">
 <span class="taskLabel">Aufgabe A</span>
-<h2>Mystery: Was hat one.zero mit der Erde zu tun?</h2>
+<h2>Mystery: Was hat one.zero mit einem guten Leben auf der Erde zu tun?</h2>
 <div class="taskContent">
 <p class="taskInstruction">
         Arbeitet in Gruppen von 2–4 Personen. Ordnet die Karten auf der Arbeitsfläche und verbindet wichtige Zusammenhänge. Baut daraus eine Erklärung zur Mystery-Frage. Ihr müsst nicht alle Karten verwenden oder alles miteinander verbinden. Einige gute Verbindungen reichen.
@@ -5776,7 +5780,7 @@ details.learningGoals{
 </div>
 <div class="taskQuestion mysteryReflectionBox">
 <label for="mysteryAnswer"><strong>Unsere Antwort auf die Mystery-Frage</strong></label>
-<p>Was hat one.zero mit einem guten Leben auf der Erde zu tun? Schreibt eure wichtigsten Zusammenhänge in wenigen Sätzen auf. Eure Antwort muss nicht alles erklären.</p>
+<p>Was hat one.zero mit einem guten Leben auf der Erde zu tun? Siehst du Gemeinsamkeiten – und was funktioniert anders? Schreibt eure wichtigsten Zusammenhänge in wenigen Sätzen auf. Eure Antwort muss nicht alles erklären.</p>
 <textarea id="mysteryAnswer" placeholder="Unsere Antwort …"></textarea>
 </div>
 <div class="mysteryQuestionReflection mysteryReflectionBox">
@@ -8264,6 +8268,9 @@ document.getElementById(
 
   renderGallery();
 
+  /* Die gerade gespeicherte Welt bleibt als Vorlage für die nächste Welt geladen. */
+  loadWorldData(newWorld);
+
   setWorldURL(
     targetSlot
   );
@@ -8359,7 +8366,7 @@ document.addEventListener(
    ERARBEITUNG V3 – lokal, ohne Backend
    ============================================================ */
 const E_KEY="novera_erarbeitung_v4";
-const TXT={"p2.kicker": "one.zero", "p2.title": "one.zero weiter entdecken", "p2.intro": "Du arbeitest mit deinen bisherigen Welten weiter und findest heraus, wie Bedürfnisse, Wünsche, begrenzte Möglichkeiten und Entscheidungen zusammenhängen.", "nav.back": "← Zurück", "worlds.title": "Deine gespeicherten Welten", "worlds.note": "Diese Welten hast du in der ersten Phase gespeichert. Du kannst sie hier nochmals ansehen.", "worlds.empty": "Noch keine Welt gespeichert.", "worlds.world": "Welt", "t1.title": "Das brauche ich ganz sicher – das wünsche ich mir eher zusätzlich", "t1.instruction": "Schau dir die Begriffe aus deiner zuletzt gespeicherten Welt an. Ordne jeden Begriff so ein, wie es für dich persönlich passt.", "sort.need": "Das brauche ich ganz sicher", "sort.desire": "Das wünsche ich mir eher zusätzlich", "sort.hard": "Schwierig zu entscheiden", "t1.hardWhat": "Was ist schwierig einzuordnen?", "t1.hardWhy": "Warum ist die Entscheidung schwierig?", "t1.confirm": "Meine Auswahl bestätigen", "t1.reveal": "Für «Das brauche ich» wird auch der Begriff Need (Bedürfnis) verwendet. Für «Das möchte ich zusätzlich» wird Desire (zusätzlicher Wunsch) verwendet.", "t1.allergy": "Was ein Mensch braucht, hängt teilweise von seiner Situation ab. Wer zum Beispiel eine Lebensmittelallergie hat, braucht möglicherweise bestimmte Nahrung, die für andere nur eine zusätzliche Wahl wäre.", "t1.noCategories": "In deiner letzten gespeicherten Welt wurden keine benannten Kategorien gefunden. Gehe zurück und benenne die verwendeten Farben.", "t2.title": "Drei Dinge genauer anschauen", "t2.instruction": "Wähle drei Dinge aus, die du ganz sicher für ein gutes Leben brauchst. Schreibe genauer, was du damit meinst. Ergänze zu jedem einen Wunsch, den du dir zusätzlich erfüllen möchtest.", "common.example": "Beispiel", "t2.example": "Das brauche ich ganz sicher: mit anderen Menschen in Kontakt sein können. Das wünsche ich mir zusätzlich: dafür immer das neueste Smartphone haben.", "t2.choose": "Kategorie auswählen", "t2.needLabel": "Das brauche ich ganz sicher", "t2.desireLabel": "Das wünsche ich mir zusätzlich", "t2.confirm": "Auswahl übernehmen", "t2.requirementsIntro": "Damit Menschen etwas bekommen oder tun können, braucht es natürliche und gesellschaftliche Voraussetzungen.", "t2.requirementsNote": "", "t2.needThree": "Ordne in Aufgabe A mindestens drei Kategorien bei «Das brauche ich ganz sicher» ein.", "t2.fill": "Bitte fülle bei allen drei Beispielen beide Felder aus.", "t3.title": "Der magische Baum", "t3.story": "Auf one.zero braucht es für deine ausgewählten Dinge keine natürlichen oder gesellschaftlichen Voraussetzungen. Hier wächst ein magischer Baum. Seine Früchte können all diese Dinge möglich machen. Für jede Sache braucht es zwei Früchte. In der Wirklichkeit brauchen verschiedene Dinge unterschiedliche Voraussetzungen.", "t3.goal": "Wähle aus, was du dir in dieser Runde ermöglichen willst. Für jede Sache braucht es zwei Früchte. Beim Klick auf «Runde abschliessen» werden die benötigten Früchte vom Baum genommen. Danach wachsen über Nacht neue Früchte nach. Wie viele nachwachsen, hängt davon ab, ob noch viele oder wenige Früchte am Baum sind. Wie viele genau nachwachsen, kannst du nicht steuern.", "sim.tree": "Am Baum", "sim.reserve": "Zurückgelegt", "sim.round": "Runde", "sim.harvest": "Ernten", "sim.secure": "Davon für später zurücklegen", "sim.finish": "Runde abschliessen", "sim.needFirst": "Schliesse zuerst Aufgabe B ab.", "sim.feedback": "Du hast {harvest} Früchte geerntet. {left} blieben am Baum. Über Nacht wuchsen {regrow} nach. Erfüllt wurden {needs} von 3 Dingen, die du ganz sicher brauchst, und {desires} von 3 zusätzlichen Wünschen.", "log.round": "Runde", "log.harvest": "Ernte", "log.treeleft": "Rest am Baum", "log.regrow": "Nachgewachsen", "log.reserve": "Zurückgelegt", "log.needs": "Needs", "log.desires": "Desires", "t4.title": "Was hast du beobachtet?", "t4.intro": "Schau auf deine Runden zurück und beschreibe deine Erfahrungen.", "t4.q1": "Was ist passiert, wenn du viele Früchte genutzt hast?", "t4.q2": "Was ist passiert, wenn du weniger Früchte genutzt hast?", "t4.q3": "Wann konntest du dir auch zusätzliche Wünsche erfüllen – und wann nicht?", "t4.q4": "Was konntest du beim Nachwachsen der Früchte nicht vorhersagen?", "t4.rememberTitle": "Vergleiche mit deinen Beobachtungen:", "t4.remember": "Nutzung heute beeinflusst Möglichkeiten morgen. Wie viele Früchte nachwachsen, ist begrenzt und nicht vollständig vorhersehbar. Auch wenn du nicht genau weisst, was später passiert, kannst du überlegen, was später noch möglich sein soll.", "t5.title": "Jetzt arbeitet ihr zu zweit", "t5.intro": "Setzt euch zu zweit zusammen. Ihr bekommt zwei erfundene Personen: Person A und Person B. Beide haben eigene Needs und Desires.", "t5.newProfiles": "Andere Profile", "t5.rule": "Eure Abmachung", "t5.help": "Denkt zum Beispiel darüber nach: Welche Needs sollen zuerst erfüllt werden? Soll jede Person gleich viel erhalten? Wann erfüllt ihr zusätzlich Desires? Was macht ihr, wenn nicht alles möglich ist?", "profile.needs": "Needs – das braucht die Person", "profile.desires": "Desires – das möchte die Person zusätzlich", "t6.title": "Gemeinsam entscheiden", "t6.intro": "Wählt selbst per Klick aus, welche Needs und Desires ihr in dieser Runde erfüllen wollt. Die Website zeigt nur die Folgen eurer Entscheidung.", "t6.secure": "Für später zurücklegen", "t6.finish": "Gemeinsame Runde abschliessen", "t6.changeRule": "Habt ihr eure Abmachung während der Runden verändert? Wenn ja: warum?", "t6.tooMuch": "Dafür reichen die verfügbaren Früchte nicht.", "t6.feedback": "Ihr habt {used} Früchte verteilt und {secure} für später zurückgelegt. {aN}/3 Needs von Person A und {bN}/3 Needs von Person B wurden erfüllt. Am Baum blieben {left}; über Nacht wuchsen {reg} nach.", "t7.title": "Was hat sich verändert?", "t7.q1": "Welche Needs konnten nicht immer erfüllt werden?", "t7.q2": "War eure Verteilung für Person A und Person B gerecht? Warum?", "t7.q3": "Was ist passiert, wenn ihr viele Früchte für Needs und Desires eingesetzt habt?", "t7.q4": "Was habt ihr bei euren gemeinsamen Regeln und Entscheidungen bemerkt?", "end.question": "Was hat one.zero mit der Erde zu tun?", "end.note": "Der Baum und seine Früchte sind erfunden. Gibt es auf der Erde trotzdem ähnliche Zusammenhänge? Diese Frage verfolgt ihr im anschliessenden Mystery weiter."};
+const TXT={"p2.kicker": "one.zero", "p2.title": "one.zero weiter entdecken", "p2.intro": "Du arbeitest mit deinen bisherigen Welten weiter und findest heraus, wie Bedürfnisse, Wünsche, begrenzte Möglichkeiten und Entscheidungen zusammenhängen.", "nav.back": "← Zurück", "worlds.title": "Deine gespeicherten Welten", "worlds.note": "Diese Welten hast du in der ersten Phase gespeichert. Du kannst sie hier nochmals ansehen.", "worlds.empty": "Noch keine Welt gespeichert.", "worlds.world": "Welt", "t1.title": "Das brauche ich ganz sicher – das wünsche ich mir eher zusätzlich", "t1.instruction": "Schau dir die Begriffe aus deiner zuletzt gespeicherten Welt an. Ordne jeden Begriff so ein, wie es für dich persönlich passt.", "sort.need": "Das brauche ich ganz sicher", "sort.desire": "Das wünsche ich mir eher zusätzlich", "sort.hard": "Schwierig zu entscheiden", "t1.hardWhat": "Was ist schwierig einzuordnen?", "t1.hardWhy": "Warum ist die Entscheidung schwierig?", "t1.confirm": "Meine Auswahl bestätigen", "t1.reveal": "Für «Das brauche ich» wird auch der Begriff Need (Bedürfnis) verwendet. Für «Das möchte ich zusätzlich» wird Desire (zusätzlicher Wunsch) verwendet.", "t1.allergy": "Was ein Mensch braucht, hängt teilweise von seiner Situation ab. Wer zum Beispiel eine Lebensmittelallergie hat, braucht möglicherweise bestimmte Nahrung, die für andere nur eine zusätzliche Wahl wäre.", "t1.noCategories": "In deiner letzten gespeicherten Welt wurden keine benannten Kategorien gefunden. Gehe zurück und benenne die verwendeten Farben.", "t2.title": "Drei Dinge genauer anschauen", "t2.instruction": "Wähle drei Dinge aus, die du ganz sicher für ein gutes Leben brauchst. Schreibe genauer, was du damit meinst. Ergänze zu jedem einen Wunsch, den du dir zusätzlich erfüllen möchtest.", "common.example": "Beispiel", "t2.example": "Das brauche ich ganz sicher: mit anderen Menschen in Kontakt sein können. Das wünsche ich mir zusätzlich: dafür immer das neueste Smartphone haben.", "t2.choose": "Kategorie auswählen", "t2.needLabel": "Das brauche ich ganz sicher", "t2.desireLabel": "Das wünsche ich mir zusätzlich", "t2.confirm": "Auswahl übernehmen", "t2.requirementsIntro": "Damit Menschen etwas bekommen oder tun können, braucht es natürliche und gesellschaftliche Voraussetzungen.", "t2.requirementsNote": "", "t2.needThree": "Ordne in Aufgabe A mindestens drei Kategorien bei «Das brauche ich ganz sicher» ein.", "t2.fill": "Bitte fülle bei allen drei Beispielen beide Felder aus.", "t3.title": "Der magische Baum", "t3.story": "Auf one.zero braucht es für deine ausgewählten Dinge keine natürlichen oder gesellschaftlichen Voraussetzungen. Hier wächst ein magischer Baum. Seine Früchte können all diese Dinge möglich machen. Für jede Sache braucht es zwei Früchte. In der Wirklichkeit brauchen verschiedene Dinge unterschiedliche Voraussetzungen.", "t3.goal": "Wähle aus, was du in dieser Runde bekommen möchtest. Beim Klick auf «Runde abschliessen» werden die dafür nötigen Früchte (gelbe Quadrate) vom Baum genommen. Spiele 6 Runden und beobachte, wie sich der Bestand verändert. Probiere, dir Needs oder Desires zu erfüllen, aber achte auch darauf, wie es dem Baum geht.", "sim.tree": "Am Baum", "sim.reserve": "Zurückgelegt", "sim.round": "Runde", "sim.harvest": "Ernten", "sim.secure": "Davon für später zurücklegen", "sim.finish": "Runde abschliessen", "sim.needFirst": "Schliesse zuerst Aufgabe B ab.", "sim.feedback": "Du hast {harvest} Früchte geerntet. {left} blieben am Baum. Über Nacht wuchsen {regrow} nach. Erfüllt wurden {needs} von 3 Dingen, die du ganz sicher brauchst, und {desires} von 3 zusätzlichen Wünschen.", "log.round": "Runde", "log.harvest": "Ernte", "log.treeleft": "Rest am Baum", "log.regrow": "Nachgewachsen", "log.reserve": "Zurückgelegt", "log.needs": "Needs", "log.desires": "Desires", "t4.title": "Was hast du beobachtet?", "t4.intro": "Schau auf deine Runden zurück und beschreibe deine Erfahrungen.", "t4.q1": "Was ist passiert, wenn du viele Früchte genutzt hast?", "t4.q2": "Was ist passiert, wenn du weniger Früchte genutzt hast?", "t4.q3": "Wann konntest du dir auch zusätzliche Wünsche erfüllen – und wann nicht?", "t4.q4": "Was konntest du beim Nachwachsen der Früchte nicht vorhersagen?", "t4.rememberTitle": "Vergleiche mit deinen Beobachtungen:", "t4.remember": "Nutzung heute beeinflusst Möglichkeiten morgen. Wie viele Früchte nachwachsen, ist begrenzt und nicht vollständig vorhersehbar. Auch wenn du nicht genau weisst, was später passiert, kannst du überlegen, was später noch möglich sein soll – und wie du das beeinflussen könntest.", "t5.title": "Jetzt arbeitet ihr zu zweit", "t5.intro": "Setzt euch zu zweit zusammen. Ihr bekommt zwei erfundene Personen: Person A und Person B. Beide haben eigene Needs und Desires.", "t5.newProfiles": "Andere Profile", "t5.rule": "Eure Abmachung", "t5.help": "Denkt zum Beispiel darüber nach: Welche Needs sollen zuerst erfüllt werden? Soll jede Person gleich viel erhalten? Wann erfüllt ihr zusätzlich Desires? Was macht ihr, wenn nicht alles möglich ist?", "profile.needs": "Needs – das braucht die Person", "profile.desires": "Desires – das möchte die Person zusätzlich", "t6.title": "Gemeinsam entscheiden", "t6.intro": "Wählt selbst per Klick aus, welche Needs und Desires ihr in dieser Runde erfüllen wollt. Spielt 6 Runden und beobachtet, wie sich der Bestand verändert und wie es dem Baum geht. Die Website zeigt nur die Folgen eurer Entscheidung.", "t6.secure": "Für später zurücklegen", "t6.finish": "Gemeinsame Runde abschliessen", "t6.changeRule": "Habt ihr eure Abmachung während der Runden verändert? Wenn ja: warum?", "t6.tooMuch": "Dafür reichen die verfügbaren Früchte nicht.", "t6.feedback": "Ihr habt {used} Früchte verteilt und {secure} für später zurückgelegt. {aN}/3 Needs von Person A und {bN}/3 Needs von Person B wurden erfüllt. Am Baum blieben {left}; über Nacht wuchsen {reg} nach.", "t7.title": "Was hat sich verändert?", "t7.q1": "Welche Needs konnten nicht immer erfüllt werden?", "t7.q2": "War eure Verteilung für Person A und Person B gerecht? Warum?", "t7.q3": "Was ist passiert, wenn ihr viele Früchte für Needs und Desires eingesetzt habt?", "t7.q4": "Was habt ihr bei euren gemeinsamen Regeln und Entscheidungen bemerkt?", "end.question": "Was hat one.zero mit einem guten Leben auf der Erde zu tun? Siehst du Gemeinsamkeiten – und was funktioniert anders?", "end.note": "Der Baum und seine Früchte sind erfunden. Gibt es auf der Erde trotzdem ähnliche Zusammenhänge? Diese Frage verfolgt ihr im anschliessenden Mystery weiter."};
 function eState(){try{return JSON.parse(localStorage.getItem(E_KEY))||{};}catch(e){return {};}}
 function ePatch(p){const s=eState();Object.assign(s,p);localStorage.setItem(E_KEY,JSON.stringify(s));return s;}
 function t(k,f=""){return TXT[k]||f||k}
@@ -8892,12 +8899,12 @@ function updatePhase2Progress(){
   const requirementsOk=s.requirementsUnderstood===true;
   const afterBOk=bComplete&&requirementsOk;
   const cRounds=Array.isArray(s.psim?.log)?s.psim.log.length:0;
-  const cComplete=cRounds>=3;
+  const cComplete=cRounds>=GAME_ROUNDS;
   const dComplete=cComplete&&s.individualReflectionSaved===true;
   const reflectionOk=dComplete&&s.reflectionUnderstandingConfirmed===true;
   const termsOk=reflectionOk&&s.termsPart1Understood===true&&s.universalTermsUnderstood===true;
   const eRounds=Array.isArray(s.gsim?.log)?s.gsim.log.length:0;
-  const eComplete=dComplete&&termsOk&&eRounds>=3;
+  const eComplete=dComplete&&termsOk&&eRounds>=GAME_ROUNDS;
 
   const a=document.getElementById("learn1");
   const b=document.getElementById("learn2");
@@ -8925,7 +8932,7 @@ function updatePhase2Progress(){
     }else if(parent.id==="learn4"){
       hint.textContent=!afterBOk
         ?(!bComplete?"Bearbeite zuerst Aufgabe B vollständig.":"Lies zuerst die Erklärung zu den Voraussetzungen und bestätige «Gelesen und verstanden».")
-        :!cComplete?"Führe zuerst mindestens drei Runden in Aufgabe C durch.":"";
+        :!cComplete?"Spiele zuerst 6 Runden in Aufgabe C.":"";
     }else if(parent.id==="learn5"){
       hint.textContent=!dComplete
         ?"Speichere zuerst deine Reflexion in Aufgabe D."
@@ -8934,7 +8941,7 @@ function updatePhase2Progress(){
     }else if(parent.id==="learn7"){
       hint.textContent=!termsOk
         ?"Lies zuerst beide Erklärungen zu Needs und Desires."
-        :!eComplete?"Führt zuerst mindestens drei gemeinsame Runden in Aufgabe E durch.":"";
+        :!eComplete?"Spielt zuerst 6 gemeinsame Runden in Aufgabe E.":"";
     }
   });
 }
@@ -9101,13 +9108,13 @@ function shuffledValues(values){
   return a;
 }
 
-const TREE_MAX=14;
-const TREE_START=14;
+const TREE_MAX=24;
+const TREE_START=22;
 const FRUIT_COST=2;
+const GAME_ROUNDS=6;
 
-function personalTreeMax(count){
-  const n=Math.max(4,Math.min(6,Number(count)||4));
-  return n*2+2; /* 4→10, 5→12, 6→14 */
+function personalTreeMax(){
+  return TREE_MAX;
 }
 
 function normalizedPersonal(personal){
@@ -9149,7 +9156,7 @@ function savePersonal(){
   const max=personalTreeMax(p.length);
   ePatch({
     personal:p,
-    psim:{tree:max,max,round:1,log:[],selectedNeeds:[],selectedDesires:[]},
+    psim:{tree:TREE_START,max,round:1,log:[],selectedNeeds:[],selectedDesires:[]},
     individualReflectionSaved:false,
     reflectionUnderstandingConfirmed:false,
     termsPart1Understood:false,
@@ -9202,7 +9209,7 @@ function renderTaskCRequirements(){
   }));
 }
 
-const FRUIT_POS=[[27,19],[38,15],[50,18],[62,14],[72,21],[31,29],[43,26],[55,29],[67,27],[77,32],[25,40],[37,38],[49,41],[61,38],[73,42],[32,51],[45,49],[58,52],[69,50],[51,59]];
+const FRUIT_POS=[[27,19],[38,15],[50,18],[62,14],[72,21],[31,29],[43,26],[55,29],[67,27],[77,32],[25,40],[37,38],[49,41],[61,38],[73,42],[32,51],[45,49],[58,52],[69,50],[51,59],[22,31],[79,24],[26,50],[75,53]];
 function drawTreeTo(layerId,count){const l=document.getElementById(layerId);if(!l)return;l.innerHTML="";FRUIT_POS.forEach((p,i)=>{if(i<count){const f=document.createElement("i");f.className="pixelFruit";f.style.left=p[0]+"%";f.style.top=p[1]+"%";l.appendChild(f)}})}
 function drawTree(count){drawTreeTo("fruitLayer",count)}
 function initPSim(){
@@ -9211,7 +9218,7 @@ function initPSim(){
   const max=personalTreeMax(p.length||4);
 
   if(!s.psim){
-    ePatch({psim:{tree:max,max,round:1,log:[],selectedNeeds:[],selectedDesires:[]}});
+    ePatch({psim:{tree:TREE_START,max,round:1,log:[],selectedNeeds:[],selectedDesires:[]}});
   }else{
     const q={...s.psim};
     if(!Array.isArray(q.log))q.log=[];
@@ -9264,7 +9271,7 @@ function renderPersonalSim(){
   treeCount.textContent=q.tree;
   const maxEl=document.getElementById("treeMaxCount");
   if(maxEl)maxEl.textContent=q.max||personalTreeMax(p.length);
-  roundCount.textContent=q.round;
+  roundCount.textContent=Math.min(q.round,GAME_ROUNDS);
 
   const desireLabel=needTotal===0 && desireTotal>0 ? "Wünsche" : "Zusätzlich";
   ensureGameSummaryRow(treeCount,"personalSummaryRow","needsStatusNow","desiresStatusNow","Ganz sicher",desireLabel);
@@ -9297,26 +9304,24 @@ function renderPersonalSim(){
   show(desiresStatusNow,lastRound?.desires||0,desireTotal,false);
 }
 
-/* Je mehr am Baum bleibt, desto stärker kann er sich erholen.
-   Die genaue Menge bleibt innerhalb eines kleinen Bereichs offen. */
+/* Regeneration eines begrenzten Systems:
+   Bei mittlerem Bestand ist die Erholung am stärksten. Bei sehr niedrigem
+   Bestand und nahe an der Kapazitätsgrenze wächst weniger nach. Die kleine
+   Zufallsschwankung macht sichtbar, dass der Verlauf nicht exakt planbar ist. */
 function regen(left,max=TREE_MAX){
-  /* Ist der Baum ganz leer, wächst nichts mehr nach. */
-  if(left<=0)return 0;
+  if(left<=0)return rand(1,2);
 
-  const share=left/Math.max(1,max);
-  let reg=0;
+  const share=Math.max(0,Math.min(1,left/Math.max(1,max)));
+  const potential=10*4*share*(1-share);
+  return Math.max(0,Math.round(potential)+rand(-1,1));
+}
 
-  if(share<=0.15)reg=2;
-  else if(share<=0.35)reg=rand(2,3);
-  else if(share<=0.55)reg=rand(2,4);
-  else if(share<=0.75)reg=rand(2,4);
-  else reg=rand(3,5);
-
-  /* Seltener besonders guter Nachwuchs:
-     In etwa jeder zehnten Runde wachsen zusätzlich 3 Früchte nach. */
-  if(Math.random()<0.10)reg+=3;
-
-  return reg;
+function growOvernight(left,max=TREE_MAX){
+  /* Auch bei geringer Nutzung steht der Baum nicht jede Nacht exakt bei 24.
+     Die erreichbare Obergrenze schwankt leicht zwischen 22 und 24. */
+  const nightCeiling=Math.max(0,max-rand(0,2));
+  const reg=Math.min(Math.max(0,nightCeiling-left),regen(left,max));
+  return {reg,next:Math.min(max,left+reg)};
 }
 
 function resetPersonalRounds(){
@@ -9324,7 +9329,7 @@ function resetPersonalRounds(){
   const p=normalizedPersonal(eState().personal||[]);
   const max=personalTreeMax(p.length);
   ePatch({
-    psim:{tree:max,max,round:1,log:[],selectedNeeds:[],selectedDesires:[]},
+    psim:{tree:TREE_START,max,round:1,log:[],selectedNeeds:[],selectedDesires:[]},
     individualReflectionSaved:false,
     reflectionUnderstandingConfirmed:false,
     termsPart1Understood:false,
@@ -9336,6 +9341,10 @@ function resetPersonalRounds(){
 
 function finishPRound(){
   const s=eState(),q={...s.psim},p=normalizedPersonal(s.personal||[]);
+  if((q.log||[]).length>=GAME_ROUNDS){
+    alert("Das Spiel ist nach 6 Runden beendet. Gehe jetzt zur Reflexion weiter.");
+    return;
+  }
   if(p.length<4){
     alert("Schliesse zuerst Aufgabe B ab.");
     return;
@@ -9359,8 +9368,9 @@ function finishPRound(){
 
   const max=q.max||personalTreeMax(p.length);
   const left=q.tree-used;
-  const reg=Math.min(max-left,regen(left,max));
-  const next=Math.min(max,left+reg);
+  const night=growOvernight(left,max);
+  const reg=night.reg;
+  const next=night.next;
 
   q.log=(q.log||[]);
   q.log.push({
@@ -9576,7 +9586,7 @@ function renderAlloc(){
   q.tree=Math.min(TREE_MAX,Math.max(0,Number(q.tree)));
   if(!Number.isFinite(q.tree))q.tree=TREE_START;
   gTree.textContent=q.tree;
-  gRound.textContent=q.round;
+  gRound.textContent=Math.min(q.round,GAME_ROUNDS);
 
   let summary=document.getElementById("groupSummaryRow");
   if(!summary){
@@ -9653,6 +9663,10 @@ function resetGroupRounds(){
 function finishGroup(){
   const s=eState(),q={...(s.gsim||{tree:TREE_START,round:1,log:[],selected:[]})},[a,b]=s.profiles;
   if(!q.log)q.log=[];
+  if(q.log.length>=GAME_ROUNDS){
+    alert("Das gemeinsame Spiel ist nach 6 Runden beendet. Geht jetzt zur Reflexion weiter.");
+    return;
+  }
   let used=0,needs=[0,0],des=[0,0];
 
   document.querySelectorAll("#allocA .allocItem input:checked,#allocB .allocItem input:checked").forEach(cb=>{
@@ -9673,7 +9687,8 @@ function finishGroup(){
   }
 
   const left=q.tree-used;
-  const reg=Math.min(TREE_MAX-left,regen(left,TREE_MAX));
+  const night=growOvernight(left,TREE_MAX);
+  const reg=night.reg;
 
   q.log.push({
     round:q.round,
@@ -9682,7 +9697,7 @@ function finishGroup(){
     left,reg
   });
 
-  q.tree=Math.min(TREE_MAX,left+reg);
+  q.tree=night.next;
   q.round++;
   q.selected=[...document.querySelectorAll("#allocA .allocItem input:checked,#allocB .allocItem input:checked")]
     .map(cb=>cb.dataset.p+":"+cb.dataset.k+":"+cb.dataset.i);
@@ -9876,7 +9891,7 @@ function makeWorkStateHtml(printOnlyCompleted=false){
 
     mysteryPrintBlock=
       '<section class="mysteryPrintPage">'+
-        '<h2>Was hat one.zero mit der Erde zu tun? – Mystery</h2>'+
+        '<h2>Was hat one.zero mit einem guten Leben auf der Erde zu tun? – Mystery</h2>'+
         '<div class="mysteryPrintCanvas">'+
           '<svg viewBox="0 0 1080 760" preserveAspectRatio="none">'+lineSvg+'</svg>'+
           cardsHtml+
@@ -9966,7 +9981,7 @@ function downloadWorkState(){
     const url=URL.createObjectURL(blob);
     const a=document.createElement("a");
     a.href=url;
-    a.download="novera-arbeitsstand.html";
+    a.download="one-zero-arbeitsstand.html";
     a.style.display="none";
     document.body.appendChild(a);
     a.click();
@@ -10450,7 +10465,7 @@ function setPersonalThoughtHint(lastRound,needTotal,desireTotal){
   let text="";
 
   if(lastRound.left===0){
-    text="Der Baum ist leer. Über Nacht sind keine neuen Früchte gewachsen. Was bedeutet das für dein gutes Leben und den Baum?";
+    text="Du hast den Baum vollständig abgeerntet. Über Nacht sind nur sehr wenige Früchte nachgewachsen. Der Bestand ist stark unter Druck. Was könntest du in der nächsten Runde verändern?";
   }else if(needTotal===0 && desireTotal>0 && d===desireTotal){
     text="Du hast dir alle deine Wünsche erfüllt. Und wie geht es dem Baum? Beobachte ihn in den nächsten Runden weiter und entscheide dann, ob das für dich ein gutes Leben ist.";
   }else if(needTotal===0 && desireTotal>0 && d>0){
@@ -10519,7 +10534,7 @@ function setGroupThoughtHint(lastRound,currentTree){
   /* Ein leerer Baum hat immer Vorrang vor allen
      Kommentaren zur Verteilung. */
   if(treeNow===0 || Number(lastRound.left)===0){
-    text="Der Baum ist leer. Über Nacht sind keine neuen Früchte gewachsen. Was bedeutet das für ein gutes Leben für beide und den Baum?";
+    text="Ihr habt den Baum vollständig abgeerntet. Über Nacht sind nur sehr wenige Früchte nachgewachsen. Der Bestand ist stark unter Druck. Was könntet ihr in der nächsten Runde verändern?";
   }else if(totalN===4 && totalD===4){
     text="Ihr habt alles erfüllt. Und wie geht es dem Baum? Beobachtet ihn in den nächsten Runden weiter und entscheidet dann, ob das für beide ein gutes Leben ist.";
   }else if(totalN===4 && totalD>0){
@@ -10599,8 +10614,6 @@ function buildOwnMysteryCard(item){
     ''+
     '<p class="mysteryCardText">'+escapeHtml(item.text)+'</p>'+
     '<div class="mysteryCardBottom">'+
-      '<select class="mysteryCardCategory" aria-label="Kategorie auswählen"></select>'+
-      ''+
       '<button class="mysteryConnectDot" type="button" aria-label="Karte für Verbindung auswählen"></button>'+
     '</div>';
   return card;
@@ -10711,7 +10724,7 @@ function initMysteryPanZoom(){
   let panStart=null,pinchStart=null;
 
   viewport.addEventListener("pointerdown",e=>{
-    if(e.target.closest(".mysteryCard")||e.target.closest(".mysteryPanControls"))return;
+    if(e.target.closest(".mysteryCard")||e.target.closest(".mysteryPanControls")||e.target.closest(".mysteryLineGroup"))return;
     pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
     viewport.setPointerCapture(e.pointerId);
     if(pointers.size===1){
@@ -11718,16 +11731,16 @@ function initErarbeitung(){
           alert("Du musst zuerst Aufgabe B fertig bearbeiten.");
         }else if((card.id==="learn3"||card.id==="learn4"||card.id==="learn5"||card.id==="learn7") && s.requirementsUnderstood!==true){
           alert("Lies zuerst die Erklärung zu den Voraussetzungen und bestätige «Gelesen und verstanden».");
-        }else if((card.id==="learn4"||card.id==="learn5"||card.id==="learn7") && (s.psim?.log?.length||0)<3){
-          alert("Führe zuerst mindestens drei Runden in Aufgabe C durch.");
+        }else if((card.id==="learn4"||card.id==="learn5"||card.id==="learn7") && (s.psim?.log?.length||0)<GAME_ROUNDS){
+          alert("Spiele zuerst 6 Runden in Aufgabe C.");
         }else if((card.id==="learn5"||card.id==="learn7") && s.individualReflectionSaved!==true){
           alert("Speichere zuerst deine Reflexion in Aufgabe D.");
         }else if((card.id==="learn5"||card.id==="learn7") && s.reflectionUnderstandingConfirmed!==true){
           alert("Lies die Erkenntnis in Aufgabe D und bestätige «Das habe ich so verstanden».");
         }else if((card.id==="learn5"||card.id==="learn7") && (s.termsPart1Understood!==true||s.universalTermsUnderstood!==true)){
           alert("Lies zuerst beide Erklärungen zu Needs und Desires und bestätige sie.");
-        }else if(card.id==="learn7" && (s.gsim?.log?.length||0)<3){
-          alert("Führt zuerst mindestens drei gemeinsame Runden in Aufgabe E durch.");
+        }else if(card.id==="learn7" && (s.gsim?.log?.length||0)<GAME_ROUNDS){
+          alert("Spielt zuerst 6 gemeinsame Runden in Aufgabe E.");
         }
       }
     });
