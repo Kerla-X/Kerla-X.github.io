@@ -5351,49 +5351,21 @@ details.learningGoals{
 <img alt="Illustration zu zwei weiteren Personen auf one.zero" class="taskArtwork" src="aufgabe-b.webp"/>
 <div class="taskContent">
 <p class="taskInstruction">
-            Gestalte die Welt so um, dass du und zwei weitere Personen dort gut
-            leben können.
+            Schliesse dich mit zwei Personen aus deiner Klasse zusammen.
+            Vergleicht zuerst eure drei Welten: Was ist euch gleich wichtig,
+            wo unterscheiden sie sich? Diskutiert dann, wie ihr eure Welt so
+            anpasst, dass alle drei gut darauf leben können. Einigt euch auf
+            eine gemeinsame Version und gestaltet diese als zweite Welt.
           </p>
 
 <p class="taskQuestion">
-            Was hast du in der zweiten Welt verändert? Und warum?
-          </p>
-<label class="taskAnswerLabel" for="taskAnswerB">
-            Deine Antwort
-          </label>
-<textarea class="taskAnswer" data-task-answer="B" id="taskAnswerB" maxlength="5000"></textarea>
-<p class="taskSaveNote">
-            Deine Antwort wird automatisch in diesem Browser gespeichert.
-          </p>
-</div>
-</div>
-</article>
-<article class="taskCard withArtwork phase1Lockable phase1Locked" id="taskC">
-<span class="taskLabel">Aufgabe C</span>
-<h2>
-        Schliesse dich mit jemandem zusammen. Einigt euch auf eine gemeinsame
-        Welt, in der ihr beide und die insgesamt vier weiteren Personen gut
-        leben können.
-      </h2>
-<p class="phase1LockHint">Bearbeite zuerst Aufgabe B vollständig.</p>
-<div class="phase1TaskBody">
-<img alt="Illustration zur gemeinsamen Gestaltung von one.zero" class="taskArtwork" src="aufgabe-c.webp"/>
-<div class="taskContent">
-<p class="taskInstruction">
-            Besprecht, was euch für ein gutes Leben wichtig ist. Einigt euch auf
-            eine gemeinsame Welt, in der ihr beide und vier weitere Personen gut
-            leben können. Beide gestalten diese gemeinsame Welt in ihrer eigenen
-            Simulation gleich.
-          </p>
-
-<p class="taskQuestion">
-            Was war euch beiden wichtig? Wo wart ihr unterschiedlicher Meinung?
+            Was war euch wichtig? Wo wart ihr unterschiedlicher Meinung?
             Worauf musstet ihr euch einigen?
           </p>
-<label class="taskAnswerLabel" for="taskAnswerC">
+<label class="taskAnswerLabel" for="taskAnswerB">
             Eure Antwort
           </label>
-<textarea class="taskAnswer" data-task-answer="C" id="taskAnswerC" maxlength="5000"></textarea>
+<textarea class="taskAnswer" data-task-answer="B" id="taskAnswerB" maxlength="5000"></textarea>
 <div class="phase1FinalReflection">
 <p class="taskQuestion">
               Hat sich deine Vorstellung von einem guten Leben durch die Aufgaben verändert?
@@ -6226,7 +6198,7 @@ details.learningGoals{
 
 const STORAGE_KEY = "mons_novera_saved_worlds";
 const TASK_ANSWERS_KEY = "novera_task_answers";
-const VALID_SLOTS = ["1","2","3"];
+const VALID_SLOTS = ["1","2"];
 
 const COLS = 20;
 const ROWS = 15;
@@ -7035,10 +7007,8 @@ function deleteWorld(id){
 function updatePhase1Progress(){
   const worlds=getSavedWorlds().slice().sort((a,b)=>Number(a.id)-Number(b.id));
   const b=document.getElementById("taskB");
-  const c=document.getElementById("taskC");
 
   if(b)b.classList.toggle("phase1Locked",worlds.length<1);
-  if(c)c.classList.toggle("phase1Locked",worlds.length<2);
 }
 
 function initPhase1Progress(){
@@ -7053,8 +7023,6 @@ function initPhase1Progress(){
 
       if(card.id==="taskB"){
         alert("Bearbeite zuerst Aufgabe A vollständig.");
-      }else if(card.id==="taskC"){
-        alert("Bearbeite zuerst Aufgabe B vollständig.");
       }else{
         alert("Bearbeite zuerst die vorangehende Aufgabe vollständig.");
       }
@@ -8074,7 +8042,7 @@ document.getElementById(
   if(!targetSlot){
 
     alert(
-      "Maximale Anzahl von 3 Welten erreicht. " +
+      "Maximale Anzahl von 2 Welten erreicht. " +
       "Bitte lösche zuerst mindestens eine Welt."
     );
 
@@ -8709,19 +8677,14 @@ function worldPreviewDataUrl(world){
 function makeDemoWorlds(){
   const defs=[
     {
-      labels:["Wohnen","Nahrung","Wasser","Natur","Gemeinschaft"],
-      colors:["#E76F51","#F4C84A","#5DB7DE","#75C56B","#B58AD8"],
-      seeds:[[5,5],[14,5],[10,8],[5,11],[15,11]]
+      labels:["Wohnen","Nahrung","Wasser","Natur","Gemeinschaft","Freizeit"],
+      colors:["#E76F51","#F4C84A","#5DB7DE","#75C56B","#B58AD8","#5E8FA8"],
+      seeds:[[5,5],[14,5],[10,8],[4,11],[15,11],[10,12]]
     },
     {
-      labels:["Wohnen","Feld","See","Wald","Mobilität"],
-      colors:["#B58AD8","#F4C84A","#5DB7DE","#75C56B","#8A9A9B"],
-      seeds:[[5,4],[14,4],[10,8],[4,11],[16,11]]
-    },
-    {
-      labels:["Unterkunft","Garten","Trinkwasser","Naturraum","Treffpunkt"],
-      colors:["#E78AB3","#F4C84A","#5DB7DE","#75C56B","#5E8FA8"],
-      seeds:[[6,5],[14,5],[10,9],[4,11],[16,10]]
+      labels:["Wohnen","Feld","See","Wald","Mobilität","Gemeinschaft"],
+      colors:["#B58AD8","#F4C84A","#5DB7DE","#75C56B","#8A9A9B","#E78AB3"],
+      seeds:[[5,4],[14,4],[10,8],[4,11],[16,11],[11,12]]
     }
   ];
 
@@ -10155,7 +10118,7 @@ function makeWorkStateHtml(printOnlyCompleted=false){
     '<p class="note">Diese Datei ist eine Sicherung deines Arbeitsstands. Du kannst sie über «Arbeitsstand laden» wieder in one.zero einlesen.</p></header>'+
     '<main>'+
     worldSections+
-    (answers.D?'<section class="printCard"><h2>Willkommensphase – abschliessende Reflexion zu Aufgabe C</h2><div class="answer">'+esc(answers.D)+'</div></section>':"")+
+    (answers.D?'<section class="printCard"><h2>Willkommensphase – abschliessende Reflexion zu Aufgabe B</h2><div class="answer">'+esc(answers.D)+'</div></section>':"")+
     selectedWorldForOutput+
     phase2Blocks+
     mysteryPrintBlock+
@@ -10460,7 +10423,7 @@ function openNoveraAnalogVersion(){
       '<p>Zeichnet einen grossen Baum. Zu Beginn hängen <strong>16 Post-its</strong> als Früchte am Baum. Für jede erfüllte Karte werden zwei Früchte entfernt. Nach jeder Runde wächst nur ein Teil nach. So bleibt die Grundidee der digitalen Simulation erhalten, ohne dass gerechnet oder gewürfelt werden muss.</p>'+
     '</div>'+
     '<div><h2>Druck- und Kopierplan</h2><table class="copyPlan"><thead><tr><th>Seiten</th><th>Kopien</th></tr></thead><tbody>'+
-      '<tr><td>Phase 1: drei Rasterwelten</td><td>je 1 pro Schüler:in</td></tr>'+
+      '<tr><td>Phase 1: zwei Rasterwelten</td><td>je 1 pro Schüler:in</td></tr>'+
       '<tr><td>Phase 2: Konkretisierung</td><td>1 pro Schüler:in</td></tr>'+
       '<tr><td>Kreissimulation Teil 1 und 2</td><td>1 pro Klasse / Gruppe</td></tr>'+
       '<tr><td>Needs-/Desires-Karten</td><td>1 Satz pro Klasse oder Gruppe</td></tr>'+
@@ -10480,21 +10443,14 @@ function openNoveraAnalogVersion(){
   )+
   worldSheet(
     "Aufgabe B",
-    "Drei Menschen auf one.zero",
-    "Zwei weitere Menschen kommen auf one.zero an. Gestalte eine neue Welt, in der ihr zu dritt gut leben könnt. Übernimm, verändere oder ergänze deine Ideen aus der ersten Welt.",
-    "Was hast du verändert? Warum war diese Veränderung für drei Menschen wichtig?",
-    ""
-  )+
-  worldSheet(
-    "Aufgabe C",
-    "Eine gemeinsame Welt für sechs Menschen",
-    "Arbeite mit einer anderen Person zusammen. Vergleicht eure bisherigen Welten und einigt euch auf eine gemeinsame Version, in der insgesamt sechs Menschen gut leben können. Beide zeichnen dieselbe gemeinsame Lösung ein.",
-    "Was war euch wichtig? Wo hattet ihr unterschiedliche Ansichten? Worauf habt ihr euch geeinigt?",
+    "Zwei weitere Personen erreichen deine Welt. Sie wollen auch ein gutes Leben führen. Was verändert ihr?",
+    "Schliesse dich mit zwei Personen aus deiner Klasse zusammen. Vergleicht zuerst eure drei Welten: Was ist euch gleich wichtig, wo unterscheiden sie sich? Diskutiert dann, wie ihr eure Welt so anpasst, dass alle drei gut darauf leben können. Einigt euch auf eine gemeinsame Version und gestaltet diese als zweite Welt.",
+    "Was war euch wichtig? Wo wart ihr unterschiedlicher Meinung? Worauf musstet ihr euch einigen?",
     "Ich kann beschreiben, was für mich zu einem guten Leben gehört, unterschiedliche Vorstellungen erklären und mit anderen eine gemeinsame Lösung aushandeln."
   )+
 
   '<section class="sheet tableSheet">'+
-    '<div class="sheetHead"><span class="phaseTag">Phase 2 · Vorbereitung</span><h1>Was meinst du genau?</h1><p>Wähle vier bis sechs Bereiche aus deinen Welten. Schreibe möglichst konkret auf, was du damit meinst. Entscheide zunächst in deinen eigenen Worten, ob du es für ein gutes Leben unbedingt brauchst oder ob du es dir zusätzlich wünschst.</p></div>'+
+    '<div class="sheetHead"><span class="phaseTag">Phase 2 · Vorbereitung</span><h1>Was meinst du genau?</h1><p>Wähle fünf bis sechs Bereiche aus deinen Welten. Schreibe möglichst konkret auf, was du damit meinst. Entscheide zunächst in deinen eigenen Worten, ob du es für ein gutes Leben unbedingt brauchst oder ob du es dir zusätzlich wünschst.</p></div>'+
     '<table class="workTable"><thead><tr><th>Bereich aus meiner Welt</th><th>Was meine ich damit genau?</th><th>Meine Einschätzung</th></tr></thead><tbody>'+
       Array.from({length:6},()=>'<tr><td></td><td></td><td class="tick">□ brauche ich unbedingt<br>□ wünsche ich zusätzlich</td></tr>').join("")+
     '</tbody></table>'+
