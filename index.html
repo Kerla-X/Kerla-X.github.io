@@ -2699,7 +2699,84 @@ button.action,
   content:none!important;
 }
 
-/* Etwas Luft zwischen Baum und Statistik */
+/* Baum + Verlaufdiagramm */
+.simNumbersHidden{
+  display:none!important;
+}
+.treeChartLayout,
+#learn5 .groupTreeRuleLayout{
+  display:grid!important;
+  grid-template-columns:minmax(260px,1fr) minmax(300px,.95fr)!important;
+  gap:22px!important;
+  align-items:center!important;
+  margin:14px 0 18px!important;
+  max-width:900px;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+.treeChartTreeColumn,
+.groupTreeColumn{
+  min-width:0;
+}
+.fruitChartBox{
+  min-width:0;
+  width:100%;
+  border:1px solid #d9e0e4;
+  border-radius:12px;
+  background:#fff;
+  padding:12px 12px 8px;
+}
+.fruitChartTitle{
+  margin:0 0 4px;
+  font-size:15px;
+  font-weight:800;
+}
+.fruitChartSvg{
+  display:block;
+  width:100%;
+  height:auto;
+  overflow:visible;
+}
+.fruitChartGrid{
+  stroke:#dfe5e8;
+  stroke-width:1;
+}
+.fruitChartAxis{
+  stroke:#8b969c;
+  stroke-width:1.2;
+}
+.fruitChartLine{
+  fill:none;
+  stroke:#263d73;
+  stroke-width:3;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.fruitChartPoint{
+  fill:#f4c84a;
+  stroke:#7a6530;
+  stroke-width:1;
+}
+.fruitChartLabel{
+  fill:#555;
+  font:11px system-ui,-apple-system,sans-serif;
+}
+.fruitChartCurrent{
+  fill:#222;
+  font:700 11px system-ui,-apple-system,sans-serif;
+}
+@media(max-width:800px){
+  .treeChartLayout,
+  #learn5 .groupTreeRuleLayout{
+    grid-template-columns:1fr!important;
+  }
+  .fruitChartBox{
+    max-width:520px;
+    margin:0 auto;
+  }
+}
+
+/* Etwas Luft zwischen Baum und Auswertung */
 .simNumbers{
   margin-top:14px!important;
 }
@@ -3187,8 +3264,7 @@ body.explanationOpen{
   margin-top:8px;
 }
 #learn5 .groupTreeRuleLayout{
-  grid-template-columns:1fr!important;
-  max-width:760px;
+  max-width:900px;
   margin-left:auto!important;
   margin-right:auto!important;
 }
@@ -5432,7 +5508,15 @@ details.learningGoals{
 <div class="treeStoryMedia">
 <img alt="Magischer Baum auf one.zero" class="treeStoryImage" src="baum.png"/>
 </div>
-</div><p class="taskInstruction" data-t="t3.goal">Wähle aus, was du in dieser Runde bekommen möchtest. Beim Klick auf «Runde abschliessen» werden die dafür nötigen Früchte (gelbe Quadrate) vom Baum genommen. Spiele mindestens 10 Runden und beobachte, wie sich der Bestand verändert. Probiere, dir Needs oder Desires zu erfüllen, aber achte auch darauf, wie es dem Baum geht. Es kann spannend sein, mehrere Durchläufe zu spielen und dabei bewusst unterschiedliche Strategien auszuprobieren.</p><div class="requirementGrid" id="taskCRequirements"></div><div><div class="pixelTree" id="pixelTree"><div class="pixelCrown"></div><div class="pixelTrunk"></div><div id="fruitLayer"></div></div><div class="simNumbers"><strong><span data-t="sim.tree">Am Baum</span>: <span id="treeCount">22</span>/<span id="treeMaxCount">22</span></strong><strong><span data-t="sim.round">Runde</span>: <span id="roundCount">1</span></strong></div></div><div aria-live="polite" class="thoughtHint" id="personalThoughtHint"></div><div class="roundActions">
+</div><p class="taskInstruction" data-t="t3.goal">Wähle aus, was du in dieser Runde bekommen möchtest. Beim Klick auf «Runde abschliessen» werden die dafür nötigen Früchte (gelbe Quadrate) vom Baum genommen. Spiele mindestens 10 Runden und beobachte, wie sich der Bestand verändert. Probiere, dir Needs oder Desires zu erfüllen, aber achte auch darauf, wie es dem Baum geht. Es kann spannend sein, mehrere Durchläufe zu spielen und dabei bewusst unterschiedliche Strategien auszuprobieren.</p><div class="requirementGrid" id="taskCRequirements"></div>
+<div class="treeChartLayout">
+  <div class="treeChartTreeColumn">
+    <div class="pixelTree" id="pixelTree"><div class="pixelCrown"></div><div class="pixelTrunk"></div><div id="fruitLayer"></div></div>
+    <div class="simNumbers simNumbersHidden" aria-hidden="true"><strong><span data-t="sim.tree">Am Baum</span>: <span id="treeCount">22</span>/<span id="treeMaxCount">22</span></strong><strong><span data-t="sim.round">Runde</span>: <span id="roundCount">1</span></strong></div>
+  </div>
+  <div class="fruitChartBox" id="personalFruitChart" aria-label="Diagramm: Früchte im Verlauf"></div>
+</div>
+<div aria-live="polite" class="thoughtHint" id="personalThoughtHint"></div><div class="roundActions">
 <button class="action" data-t="sim.finish" id="finishRound">Runde abschliessen</button>
 <button class="action secondary" id="resetPersonalRounds" type="button">Runden zurücksetzen</button>
 </div></article>
@@ -5493,7 +5577,7 @@ details.learningGoals{
 </div>
 <div class="groupTreeRuleLayout">
 <div class="groupTreeColumn">
-<div class="socialStatus">
+<div class="socialStatus simNumbersHidden" aria-hidden="true">
 <strong>Am Baum: <span id="gTree">22</span>/22</strong>
 <strong>Runde: <span id="gRound">1</span></strong>
 </div>
@@ -5503,6 +5587,7 @@ details.learningGoals{
 <div id="groupFruitLayer"></div>
 </div>
 </div>
+<div class="fruitChartBox" id="groupFruitChart" aria-label="Diagramm: Früchte im Verlauf"></div>
 </div>
 <button class="action secondary compactAction" id="newProfiles" type="button">Andere Needs und Desires</button>
 <div class="allocationGrid">
@@ -9249,6 +9334,62 @@ function initPSim(){
   }
 }
 
+function fruitSeriesFromLog(log,start=TREE_START){
+  const values=[{round:0,tree:start}];
+  (Array.isArray(log)?log:[]).forEach((entry,i)=>{
+    const tree=entry.left===0 ? 0 : Math.max(0,Math.min(TREE_MAX,(Number(entry.left)||0)+(Number(entry.regrow ?? entry.reg)||0)));
+    values.push({round:Number(entry.round)||i+1,tree});
+  });
+  return values;
+}
+
+function renderFruitChart(containerId,log,start=TREE_START,max=TREE_MAX){
+  const box=document.getElementById(containerId);
+  if(!box)return;
+
+  const data=fruitSeriesFromLog(log,start);
+  const width=360,height=220;
+  const pad={l:34,r:16,t:22,b:30};
+  const innerW=width-pad.l-pad.r;
+  const innerH=height-pad.t-pad.b;
+  const maxRound=Math.max(10,GAME_ROUNDS,data[data.length-1]?.round||0);
+  const x=r=>pad.l+(r/maxRound)*innerW;
+  const y=v=>pad.t+((max-v)/max)*innerH;
+
+  const yTicks=[0,Math.round(max/2),max];
+  let svg='<p class="fruitChartTitle">Früchte im Verlauf</p>';
+  svg+='<svg class="fruitChartSvg" viewBox="0 0 '+width+' '+height+'" role="img" aria-label="Fruchtbestand nach jeder Runde">';
+
+  yTicks.forEach(v=>{
+    const yy=y(v);
+    svg+='<line class="fruitChartGrid" x1="'+pad.l+'" y1="'+yy+'" x2="'+(width-pad.r)+'" y2="'+yy+'"></line>';
+    svg+='<text class="fruitChartLabel" x="'+(pad.l-7)+'" y="'+(yy+4)+'" text-anchor="end">'+v+'</text>';
+  });
+
+  svg+='<line class="fruitChartAxis" x1="'+pad.l+'" y1="'+pad.t+'" x2="'+pad.l+'" y2="'+(height-pad.b)+'"></line>';
+  svg+='<line class="fruitChartAxis" x1="'+pad.l+'" y1="'+(height-pad.b)+'" x2="'+(width-pad.r)+'" y2="'+(height-pad.b)+'"></line>';
+
+  for(let r=0;r<=maxRound;r+=2){
+    const xx=x(r);
+    svg+='<text class="fruitChartLabel" x="'+xx+'" y="'+(height-10)+'" text-anchor="middle">'+r+'</text>';
+  }
+
+  if(data.length){
+    const pts=data.map(d=>x(d.round)+','+y(d.tree)).join(' ');
+    svg+='<polyline class="fruitChartLine" points="'+pts+'"></polyline>';
+    data.forEach((d,i)=>{
+      const xx=x(d.round),yy=y(d.tree);
+      svg+='<circle class="fruitChartPoint" cx="'+xx+'" cy="'+yy+'" r="'+(i===data.length-1?5:4)+'"></circle>';
+    });
+    const last=data[data.length-1];
+    svg+='<text class="fruitChartCurrent" x="'+Math.min(width-pad.r-2,x(last.round)+8)+'" y="'+Math.max(12,y(last.tree)-9)+'">'+last.tree+'</text>';
+  }
+
+  svg+='<text class="fruitChartLabel" x="'+(width-pad.r)+'" y="'+(height-10)+'" text-anchor="end">Runden</text>';
+  svg+='</svg>';
+  box.innerHTML=svg;
+}
+
 function ensureGameSummaryRow(referenceEl,rowId,needsId,desiresId,needsLabel="Needs",desiresLabel="Desires"){
   if(!referenceEl)return;
   let row=document.getElementById(rowId);
@@ -9286,6 +9427,7 @@ function renderPersonalSim(){
 
   renderTaskCRequirements();
   drawTree(q.tree);
+  renderFruitChart("personalFruitChart",q.log||[],TREE_START,q.max||TREE_MAX);
   treeCount.textContent=q.tree;
   const maxEl=document.getElementById("treeMaxCount");
   if(maxEl)maxEl.textContent=q.max||personalTreeMax(p.length);
@@ -9386,6 +9528,11 @@ function resetPersonalRounds(){
     universalTermsUnderstood:false
   });
   renderPersonalSim();
+  const hint=document.getElementById("personalThoughtHint");
+  if(hint){
+    hint.classList.remove("active");
+    hint.textContent="";
+  }
   updatePhase2Progress();
 }
 
@@ -9437,7 +9584,7 @@ function finishPRound(){
   ePatch({psim:q});
   renderPersonalSim();
   if(collapsed){
-    alert("Der Baum ist leer. Dieser Durchlauf endet hier. Gehe zur Reflexion weiter und überlege, wie es dazu gekommen ist.");
+    alert("Der Baum ist leer. Dieser Durchlauf endet hier. Schau dir den Verlauf an und gehe zur Reflexion weiter.");
   }
   suppressThoughtHints=false;
   setPersonalThoughtHint(q.log[q.log.length-1],
@@ -9682,6 +9829,7 @@ function renderAlloc(){
   setStatus("groupBDesires",last?.desB||0,2,false);
 
   drawTreeTo("groupFruitLayer",q.tree);
+  renderFruitChart("groupFruitChart",q.log||[],TREE_START,TREE_MAX);
 
   const selectedSet=new Set(Array.isArray(q.selected)?q.selected:[]);
   const mk=(p,pi)=>
@@ -9722,6 +9870,11 @@ function resetGroupRounds(){
   suppressThoughtHints=true;
   ePatch({gsim:{tree:TREE_START,round:1,log:[],selected:[]}});
   renderAlloc();
+  const hint=document.getElementById("groupThoughtHint");
+  if(hint){
+    hint.classList.remove("active");
+    hint.textContent="";
+  }
   updatePhase2Progress();
 }
 
@@ -9770,7 +9923,7 @@ function finishGroup(){
   ePatch({gsim:q});
   renderAlloc();
   if(collapsed){
-    alert("Der Baum ist leer. Dieser gemeinsame Durchlauf endet hier. Geht zur Reflexion weiter und überlegt, wie es dazu gekommen ist.");
+    alert("Der Baum ist leer. Dieser gemeinsame Durchlauf endet hier. Schaut euch den Verlauf an und geht zur Reflexion weiter.");
   }
   suppressThoughtHints=false;
   setGroupThoughtHint(q.log[q.log.length-1],q.tree);
@@ -10541,7 +10694,7 @@ function setPersonalThoughtHint(lastRound,needTotal,desireTotal){
   let text="";
 
   if(lastRound.left===0){
-    text="Du hast den Baum vollständig abgeerntet. Über Nacht sind nur sehr wenige Früchte nachgewachsen. Der Bestand ist stark unter Druck. Was könntest du in der nächsten Runde verändern?";
+    text="Du hast den Baum vollständig abgeerntet. Der Durchlauf endet hier. Schau dir den Verlauf an und überlege in der Reflexion, wie es dazu gekommen ist und was du anders hättest entscheiden können.";
   }else if(needTotal===0 && desireTotal>0 && d===desireTotal){
     text="Du hast dir alle deine Wünsche erfüllt. Und wie geht es dem Baum? Beobachte ihn in den nächsten Runden weiter und entscheide dann, ob das für dich ein gutes Leben ist.";
   }else if(needTotal===0 && desireTotal>0 && d>0){
@@ -10610,7 +10763,7 @@ function setGroupThoughtHint(lastRound,currentTree){
   /* Ein leerer Baum hat immer Vorrang vor allen
      Kommentaren zur Verteilung. */
   if(treeNow===0 || Number(lastRound.left)===0){
-    text="Ihr habt den Baum vollständig abgeerntet. Über Nacht sind nur sehr wenige Früchte nachgewachsen. Der Bestand ist stark unter Druck. Was könntet ihr in der nächsten Runde verändern?";
+    text="Ihr habt den Baum vollständig abgeerntet. Der Durchlauf endet hier. Schaut euch den Verlauf an und überlegt in der Reflexion, wie es dazu gekommen ist und was ihr anders hättet entscheiden können.";
   }else if(totalN===4 && totalD===4){
     text="Ihr habt alles erfüllt. Und wie geht es dem Baum? Beobachtet ihn in den nächsten Runden weiter und entscheidet dann, ob das für beide ein gutes Leben ist.";
   }else if(totalN===4 && totalD>0){
