@@ -9776,26 +9776,25 @@ function stockBand(used,max=TREE_MAX){
 
 function growOvernight(left,used,max=TREE_MAX,round=1,currentTree=max){
   const [low,high]=stockBand(used,max);
-
-  /* Statt fast immer nur um eine Frucht zu schwanken, bewegt sich der Bestand
-     mit deutlich sichtbarer Dynamik in Richtung des nutzungsabhängigen Bereichs.
-     Der Vorbestand wirkt weiter als Trägheit, zusätzlich gibt es eine kleine,
-     aber spürbare Schwankung von bis zu zwei Früchten. */
   const randomTarget=rand(low,high);
-  const gap=randomTarget-currentTree;
-  const drift=gap>0 ? Math.ceil(gap*0.45) : Math.floor(gap*0.35);
-  const variation=rand(-2,2);
 
-  let next=currentTree+drift+variation;
+  /* Entscheidend ist jetzt der Restbestand NACH der Ernte.
+     Je stärker der Baum abgeerntet wurde, desto langsamer nähert er sich
+     über Nacht wieder dem nutzungsabhängigen Zielbereich. */
+  const gap=Math.max(0,randomTarget-left);
+  let recoveryRate;
+  if(left<=2)recoveryRate=0.38;
+  else if(left<=5)recoveryRate=0.48;
+  else if(left<=9)recoveryRate=0.58;
+  else recoveryRate=0.68;
 
-  /* Über Nacht können nur Früchte nachwachsen: Der Endbestand darf deshalb
-     nicht unter dem nach der Ernte verbliebenen Bestand liegen. */
-  next=Math.max(left,next);
-  next=Math.min(max,next);
+  const variation=rand(-1,1);
+  const growth=Math.max(0,Math.ceil(gap*recoveryRate)+variation);
+  let next=Math.min(max,left+growth);
 
-  /* In den ersten sechs Runden soll ein einzelner ungünstiger Verlauf
-     den Durchlauf nicht bereits beenden. Ab Runde 7 ist 0 möglich. */
-  if(round<=6 && next<2)next=2;
+  /* Ein vollständig abgeernteter, aber noch nicht kollabierter Baum
+     bekommt immer noch eine echte Chance zur Regeneration. */
+  if(left===0 && next<2)next=2;
 
   const reg=Math.max(0,next-left);
   return {reg,next};
@@ -9850,10 +9849,11 @@ async function finishPRound(){
   const fromTree=q.tree;
   const left=q.tree-used;
 
-  /* Erschöpfung richtet sich danach, wie stark der Baum abgeerntet wird:
+  /* Erschöpfung richtet sich nach dem Restbestand direkt nach der Ernte:
      0 Früchte übrig = 2 Belastungspunkte, 1–2 Früchte = 1 Punkt.
      Bleiben mehr als 2 Früchte, baut sich die Belastung um 1 Punkt ab.
-     Ab 3 Punkten kollabiert der Baum (frühestens ab Runde 7). */
+     Ein einzelnes Abernten auf 0 führt also nie automatisch zum Kollaps.
+     Ab 3 Belastungspunkten kollabiert der Baum (frühestens ab Runde 7). */
   const exhaustionScore=Math.max(0,Math.min(2,Number(q.exhaustionScore)||0));
   const stressPoints=left===0 ? 2 : (left<=2 ? 1 : 0);
   const collapsed=stressPoints>0 && (exhaustionScore+stressPoints)>=3 && q.round>6;
