@@ -2737,7 +2737,7 @@ button.action,
   display:none!important;
 }
 .treeChartLayout,
-#learn5 .groupTreeRuleLayout{
+#learn5:not(.phase2Locked) .groupTreeRuleLayout{
   display:grid!important;
   grid-template-columns:minmax(260px,1fr) minmax(300px,.95fr)!important;
   gap:22px!important;
@@ -2800,7 +2800,7 @@ button.action,
 }
 @media(max-width:800px){
   .treeChartLayout,
-  #learn5 .groupTreeRuleLayout{
+  #learn5:not(.phase2Locked) .groupTreeRuleLayout{
     grid-template-columns:1fr!important;
   }
   .fruitChartBox{
@@ -3296,7 +3296,7 @@ body.explanationOpen{
 .partnerTaskCombined .helpBtn{
   margin-top:8px;
 }
-#learn5 .groupTreeRuleLayout{
+#learn5:not(.phase2Locked) .groupTreeRuleLayout{
   max-width:900px;
   margin-left:auto!important;
   margin-right:auto!important;
@@ -3304,7 +3304,7 @@ body.explanationOpen{
 #learn5 .groupTreeColumn{
   width:100%;
 }
-#learn5.phase2Lockable:not(.phase2Locked) > .roundActions{
+#learn5:not(.phase2Locked) > .roundActions{
   display:flex!important;
   visibility:visible!important;
   opacity:1!important;
@@ -5303,21 +5303,59 @@ details.learningGoals{
 
 
 .demoLineDialog{
-  position:absolute;left:255px;top:116px;z-index:9;width:310px;
-  background:#fff;border:1px solid #cfd4d6;border-radius:12px;padding:12px;
-  box-shadow:0 10px 28px rgba(0,0,0,.2);opacity:0;pointer-events:none;
+  position:absolute;
+  left:200px;
+  top:105px;
+  z-index:9;
+  width:min(420px,calc(100% - 40px));
+  background:#fff;
+  border-radius:14px;
+  padding:18px;
+  box-shadow:0 14px 50px rgba(0,0,0,.24);
+  opacity:0;
+  pointer-events:none;
 }
-.demoLineDialog h3{margin:0 0 10px}.demoLineDialog label{display:block;margin-bottom:6px;font-size:14px}
+.demoLineDialog h3{margin:0 0 10px}.demoLineDialog label{display:block;margin:0 0 6px;font-size:14px}
 .demoFakeInput{
-  min-height:46px;border:1px solid #aaa;border-radius:8px;padding:10px;
-  font:15px system-ui,-apple-system,sans-serif;background:#fff;position:relative;
+  width:100%;
+  min-height:43px;
+  font:inherit;
+  font-size:16px;
+  padding:10px;
+  border:1px solid #aaa;
+  border-radius:8px;
+  background:#fff;
+  position:relative;
+  box-sizing:border-box;
 }
-.demoFakePlaceholder{color:#8b9398}
+.demoFakePlaceholder{color:#757575}
 .demoTypedText{color:#222}
 .demoFakeInput.hasText .demoFakePlaceholder{display:none}
-.demoDialogActions{display:flex;justify-content:flex-end;gap:7px;margin-top:9px}
-.demoFakeButton{padding:6px 10px;border-radius:7px;background:#263d73;color:#fff;font-size:11px;font-weight:700}
-.demoFakeButton.secondary{background:#eef2f4;color:#333}
+.demoDialogActions{
+  display:flex;
+  gap:8px;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+.demoFakeButton{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:34px;
+  padding:7px 11px;
+  border:0;
+  border-radius:8px;
+  background:#222;
+  color:#fff;
+  font:700 13px system-ui,-apple-system,sans-serif;
+  line-height:1.2;
+}
+.demoFakeButton.secondary{
+  background:#f0f0ed;
+  color:#222;
+  border:1px solid #c9c8c2;
+}
 .demoLineDialogOne{top:114px}
 .demoLineDialogTwo{top:168px}
 .demoTypedText::after{content:"";white-space:pre-wrap}
@@ -5334,6 +5372,13 @@ details.learningGoals{
   50%{content:"ist ähnlich, "}
   75%{content:"ist ähnlich, weil "}
   100%{content:"ist ähnlich, weil Erholung Zeit braucht"}
+}
+
+
+/* Der kurze Speicherhinweis verwendet dieselbe Textgröße wie die übrigen
+   Aufgaben- und Reflexionshinweise; die Kategorienzeile bleibt klein. */
+.inlineHint.saveWorldHint{
+  font-size:16px!important;
 }
 
 </style>
@@ -5457,8 +5502,8 @@ details.learningGoals{
             anpasst, dass alle drei gut darauf leben können. Einigt euch auf
             eine gemeinsame Version und gestaltet diese als zweite Welt.
           </p>
-<div class="inlineHint">
-  <strong>Hinweis:</strong> Vergesst nicht, eure gemeinsame Welt zu speichern.
+<div class="inlineHint saveWorldHint">
+  Vergesst nicht, eure gemeinsame Welt zu speichern.
 </div>
 
 <p class="taskQuestion">
@@ -5554,7 +5599,7 @@ details.learningGoals{
 <p class="phase2LockHint">Wähle in Aufgabe A zuerst fünf bis sechs Bereiche aus.</p>
 <p class="taskInstruction">Beschreibe bei jedem ausgewählten Bereich genauer, was du damit meinst. Entscheide danach für dich persönlich: Brauche ich das ganz sicher für ein gutes Leben oder wünsche ich es mir eher zusätzlich?</p>
 <div class="needEditors" id="needEditors"></div>
-<div class="phaseNav"><button class="action" id="makeNeeds">Auswahl übernehmen</button></div>
+<div class="phaseNav"><button class="action" id="makeNeeds">Auswahl übernehmen und Erklärung anzeigen</button></div>
 <div class="theoryBox hidden" id="requirementsReveal">
 <p><strong>Damit Menschen etwas bekommen oder tun können, braucht es Voraussetzungen.</strong> Manche sind natürlich, zum Beispiel Wasser, Boden, Rohstoffe oder Energie. Andere entstehen durch das Zusammenleben, zum Beispiel Wissen, Arbeit, Verkehrswege, Regeln oder Zusammenarbeit. Oft braucht es beides gleichzeitig.</p>
 <div id="requirementsList"></div>
@@ -5598,7 +5643,7 @@ details.learningGoals{
 </ul>
 <textarea class="largeReflection" data-e-save="individualReflection" id="individualReflection"></textarea>
 </div>
-<button class="action compactAction" id="checkIndividualReflection" type="button">Reflexion speichern</button>
+<button class="action compactAction" id="checkIndividualReflection" type="button">Reflexion speichern und Erklärung anzeigen</button>
 <div class="theoryBox hidden" id="individualTheory">
 <strong>Vergleiche deine Beobachtungen mit dieser Erkenntnis:</strong>
 <p><strong>Nutzung heute beeinflusst Möglichkeiten morgen.</strong> Wie viele Früchte nachwachsen, ist begrenzt und nicht vollständig vorhersehbar. Auch wenn du nicht genau weisst, was später passiert, kannst du überlegen, was später noch möglich sein soll – und wie du das beeinflussen könntest.</p>
@@ -5629,7 +5674,7 @@ details.learningGoals{
 </article>
 <article class="learnCard socialStart phase2Lockable phase2Locked" id="learn5">
 <span class="taskLabel">Aufgabe E</span>
-<h2>Jetzt arbeitet ihr zu zweit</h2><p class="phase2LockHint">Lies zuerst beide Erklärungen zu Needs und Desires und bestätige sie.</p>
+<h2>Jetzt arbeitet ihr zu zweit</h2><p class="phase2LockHint">Bearbeite zuerst Aufgabe D.</p>
 <div class="taskInstruction partnerTaskCombined">
 <p>Setzt euch zu zweit zusammen. Ihr seid Person A und Person B. Jede Person bekommt zwei vorgegebene Needs und zwei Desires. Besprecht zuerst, wie ihr die Früchte ernten wollt, und schreibt eure Abmachung hier auf. Entscheidet danach gemeinsam, wofür ihr in jeder Runde Früchte erntet. Für jede Sache braucht es zwei Früchte. Die Früchte reichen nicht immer für alles. Spielt mindestens 10 Runden und beobachtet, wie sich der Bestand verändert und wie es dem Baum geht. Es kann spannend sein, mehrere Durchläufe zu spielen und dabei bewusst unterschiedliche Strategien auszuprobieren.</p>
 <div class="labField partnerAgreementField">
@@ -5671,7 +5716,7 @@ details.learningGoals{
 </article>
 <article class="learnCard phase2Lockable phase2Locked" id="learn7">
 <span class="taskLabel">Aufgabe F</span>
-<h2>Was hat sich verändert?</h2><p class="phase2LockHint">Spielt zuerst mindestens 10 gemeinsame Runden in Aufgabe E.</p>
+<h2>Was hat sich verändert?</h2><p class="phase2LockHint">Bearbeitet zuerst Aufgabe E.</p>
 <div class="taskQuestion reflectionPrompt">
 <strong>Denkt über eure gemeinsamen Runden nach.</strong>
 <p>Geht dabei auf diese Fragen ein:</p>
@@ -5907,7 +5952,7 @@ details.learningGoals{
 <p>Euer Netz zeigt nur einige Zusammenhänge. Es gibt weitere Zusammenhänge, die in den Karten nicht vorkommen.</p>
 <textarea id="mysteryQuestion" placeholder="Ja, mir ist aufgefallen …"></textarea>
 </div>
-<button class="action compactAction" id="finishMysteryTask" type="button">Aufgabe abschliessen</button>
+<button class="action compactAction" id="finishMysteryTask" type="button">Aufgabe abschliessen und Erklärung anzeigen</button>
 </div>
 </article>
 <article class="taskCard phase3TaskCard phase3Lockable phase3Locked" id="modelTask">
