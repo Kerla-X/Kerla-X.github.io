@@ -10905,7 +10905,7 @@ function setPersonalThoughtHint(lastRound,needTotal,desireTotal){
   let text="";
 
   if(lastRound.collapsed===true){
-    text="Du hast den Baum vollständig abgeerntet. Er kann sich nicht mehr erholen. Der Durchlauf endet hier. Schau dir den Verlauf an und überlege in der Reflexion, wie es dazu gekommen ist und was du anders hättest entscheiden können.";
+    text="Du hast den Baum erschöpft. Er kann sich nicht mehr erholen. Der Durchlauf endet hier. Schau dir den Verlauf an und überlege in der Reflexion, wie es dazu gekommen ist und was du anders hättest entscheiden können.";
   }else if(needTotal===0 && desireTotal>0 && d===desireTotal){
     text="Du hast dir alle deine Wünsche erfüllt. Und wie geht es dem Baum? Beobachte ihn in den nächsten Runden weiter und entscheide dann, ob das für dich ein gutes Leben ist.";
   }else if(needTotal===0 && desireTotal>0 && d>0){
@@ -10974,7 +10974,7 @@ function setGroupThoughtHint(lastRound,currentTree){
   /* Ein leerer Baum hat immer Vorrang vor allen
      Kommentaren zur Verteilung. */
   if(lastRound.collapsed===true || treeNow===0){
-    text="Ihr habt den Baum vollständig abgeerntet. Er kann sich nicht mehr erholen. Der Durchlauf endet hier. Schaut euch den Verlauf an und überlegt in der Reflexion, wie es dazu gekommen ist und was ihr anders hättet entscheiden können.";
+    text="Ihr habt den Baum erschöpft. Er kann sich nicht mehr erholen. Der Durchlauf endet hier. Schaut euch den Verlauf an und überlegt in der Reflexion, wie es dazu gekommen ist und was ihr anders hättet entscheiden können.";
   }else if(totalN===4 && totalD===4){
     text="Ihr habt alles erfüllt. Und wie geht es dem Baum? Beobachtet ihn in den nächsten Runden weiter und entscheidet dann, ob das für beide ein gutes Leben ist.";
   }else if(totalN===4 && totalD>0){
