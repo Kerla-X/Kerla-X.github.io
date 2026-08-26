@@ -3546,6 +3546,8 @@ body.explanationOpen{
   background:#f2f7fa;
   font-size:14px;
   line-height:1.45;
+
+  position:relative;
 }
 .mysteryBoardScroller{
   overflow:auto;
@@ -5304,9 +5306,13 @@ details.learningGoals{
 
 .mysteryHowToBtn{
   position:absolute;
-  right:14px;
-  bottom:14px;
+  right:10px;
+  bottom:10px;
   z-index:12;
+
+  left:auto;
+
+  top:auto;
 }
 .mysteryHowToOverlay{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:18px;background:rgba(0,0,0,.55)}
 .mysteryHowToOverlay.hidden{display:none!important}
@@ -5427,6 +5433,37 @@ details.learningGoals{
   font-size:16px!important;
 }
 
+
+
+.mysteryGuide{
+  position:relative;
+  padding-right:62px!important;
+}
+.mysteryHowToBtn{
+  position:absolute!important;
+  right:10px!important;
+  left:auto!important;
+  top:10px!important;
+  bottom:auto!important;
+}
+
+.phase2RuleInputWrap{
+  position:relative;
+}
+.phase2RuleInputWrap #groupRule{
+  display:block;
+  width:100%;
+  padding-right:72px!important;
+}
+.phase2RuleInputWrap .phase2RuleHelpBtn{
+  position:absolute!important;
+  right:14px!important;
+  left:auto!important;
+  top:-18px!important;
+  bottom:auto!important;
+  transform:none!important;
+  z-index:2;
+}
 </style>
 </head>
 <body>
@@ -5725,8 +5762,10 @@ details.learningGoals{
 <p>Setzt euch zu zweit zusammen. Ihr seid Person A und Person B. Jede Person bekommt zwei vorgegebene Needs und zwei Desires. Besprecht zuerst, wie ihr die Früchte ernten wollt, und schreibt eure Abmachung hier auf. Entscheidet danach gemeinsam, wofür ihr in jeder Runde Früchte erntet. Für jede Sache braucht es zwei Früchte. Die Früchte reichen nicht immer für alles. Spielt mindestens 10 Runden und beobachtet, wie sich der Bestand verändert und wie es dem Baum geht. Es kann spannend sein, mehrere Durchläufe zu spielen und dabei bewusst unterschiedliche Strategien auszuprobieren.</p>
 <div class="labField partnerAgreementField">
 <label for="groupRule">Eure Abmachung</label>
+<div class="phase2RuleInputWrap">
 <textarea data-e-save="groupRule" id="groupRule" placeholder="Schreibt hier auf, wie ihr die Früchte ernten wollt."></textarea>
-<button class="helpBtn" data-help="ruleHelp" type="button">?</button>
+<button class="helpBtn phase2RuleHelpBtn" data-help="ruleHelp" type="button">?</button>
+</div>
 <div class="helpBox" id="ruleHelp">Denkt zum Beispiel darüber nach: Was ist euch beim Ernten wichtig? Was soll Person A bekommen, was Person B? Wann erntet ihr für Needs, wann für Desires?</div>
 </div>
 </div>
@@ -5814,6 +5853,7 @@ details.learningGoals{
 <li>Beschriftet wichtige Verbindungen kurz: Wie hängen die beiden Aussagen zusammen?</li>
 <li>Ihr müsst nicht alle Karten miteinander verbinden.</li>
 </ul>
+<button aria-label="Zeige, wie Karten verbunden werden" class="mysteryHowToBtn helpBtn" id="mysteryHowToBtn" type="button">?</button>
 </div>
 <div class="mysteryWorkspaceShell" id="mysteryWorkspaceShell">
 <div aria-label="Mystery-Werkzeuge" class="mysteryToolbar">
@@ -5988,7 +6028,7 @@ details.learningGoals{
 </div>
 </div>
 </div>
-<button aria-label="Zeige, wie Karten verbunden werden" class="mysteryHowToBtn helpBtn" id="mysteryHowToBtn" type="button">?</button>
+
 </div>
 <div class="taskQuestion mysteryReflectionBox">
 <label for="mysteryAnswer"><strong>Unsere Erklärung zur Mystery-Frage</strong></label>
@@ -9802,22 +9842,23 @@ async function finishPRound(){
   const fromTree=q.tree;
   const left=q.tree-used;
 
-  const exhaustionScore=Math.max(0,Math.min(2,Number(q.exhaustionScore)||0));
-  const stressPoints=left===0 ? 2 : (left<=2 ? 1 : 0);
-  const collapsed=stressPoints>0 && (exhaustionScore+stressPoints)>=3 && q.round>6;
-
   const night=growOvernight(left,used,max,q.round,q.tree);
   const reg=night.reg;
-  const next=collapsed?0:night.next;
+  const regenerated=night.next;
 
-  let nextExhaustionScore;
-  if(collapsed){
-    nextExhaustionScore=3;
-  }else if(stressPoints>0){
-    nextExhaustionScore=Math.min(2,exhaustionScore+stressPoints);
-  }else{
-    nextExhaustionScore=Math.max(0,exhaustionScore-1);
-  }
+  /* Erschöpfung ist nur an einem Zustand erkennbar, den die Lernenden auch
+     sehen: 0–2 Früchte NACH der Nacht. Zwei solche Ereignisse innerhalb
+     von drei Runden führen zum Kollaps (frühestens ab Runde 7). */
+  const recentExhaustionRounds=(Array.isArray(q.exhaustionRounds)?q.exhaustionRounds:[])
+    .map(Number)
+    .filter(r=>Number.isFinite(r) && r>=q.round-2);
+  const exhaustedTonight=regenerated<=2;
+  const repeatedExhaustion=exhaustedTonight && recentExhaustionRounds.length>=1;
+  const collapsed=repeatedExhaustion && q.round>6;
+  const next=collapsed?0:regenerated;
+  const nextExhaustionRounds=collapsed
+    ? [...recentExhaustionRounds,q.round]
+    : (exhaustedTonight ? [...recentExhaustionRounds,q.round] : recentExhaustionRounds);
 
   q.log=(q.log||[]);
   q.log.push({
@@ -9831,7 +9872,8 @@ async function finishPRound(){
     desireTotal:p.filter(x=>x.kind==="desire").length,
     treeAfter:next,
     collapsed,
-    exhaustionScore:nextExhaustionScore
+    exhaustedTonight,
+    exhaustionRounds:nextExhaustionRounds
   });
   Object.assign(q,{
     tree:next,
@@ -9840,7 +9882,7 @@ async function finishPRound(){
     selectedNeeds:validNeeds,
     selectedDesires:validDesires,
     collapsed:collapsed||q.collapsed===true,
-    exhaustionScore:nextExhaustionScore
+    exhaustionRounds:nextExhaustionRounds
   });
   ePatch({
     psim:q,
@@ -10176,22 +10218,20 @@ async function finishGroup(){
   const fromTree=q.tree;
   const left=q.tree-used;
 
-  const exhaustionScore=Math.max(0,Math.min(2,Number(q.exhaustionScore)||0));
-  const stressPoints=left===0 ? 2 : (left<=2 ? 1 : 0);
-  const collapsed=stressPoints>0 && (exhaustionScore+stressPoints)>=3 && q.round>6;
-
   const night=growOvernight(left,used,TREE_MAX,q.round,q.tree);
   const reg=night.reg;
-  const treeAfter=collapsed?0:night.next;
+  const regenerated=night.next;
 
-  let nextExhaustionScore;
-  if(collapsed){
-    nextExhaustionScore=3;
-  }else if(stressPoints>0){
-    nextExhaustionScore=Math.min(2,exhaustionScore+stressPoints);
-  }else{
-    nextExhaustionScore=Math.max(0,exhaustionScore-1);
-  }
+  const recentExhaustionRounds=(Array.isArray(q.exhaustionRounds)?q.exhaustionRounds:[])
+    .map(Number)
+    .filter(r=>Number.isFinite(r) && r>=q.round-2);
+  const exhaustedTonight=regenerated<=2;
+  const repeatedExhaustion=exhaustedTonight && recentExhaustionRounds.length>=1;
+  const collapsed=repeatedExhaustion && q.round>6;
+  const treeAfter=collapsed?0:regenerated;
+  const nextExhaustionRounds=collapsed
+    ? [...recentExhaustionRounds,q.round]
+    : (exhaustedTonight ? [...recentExhaustionRounds,q.round] : recentExhaustionRounds);
 
   q.log.push({
     round:q.round,
@@ -10200,12 +10240,13 @@ async function finishGroup(){
     left,reg,
     treeAfter,
     collapsed,
-    exhaustionScore:nextExhaustionScore
+    exhaustedTonight,
+    exhaustionRounds:nextExhaustionRounds
   });
 
   q.tree=treeAfter;
   q.collapsed=collapsed||q.collapsed===true;
-  q.exhaustionScore=nextExhaustionScore;
+  q.exhaustionRounds=nextExhaustionRounds;
   q.round++;
   q.selected=[...document.querySelectorAll("#allocA .allocItem input:checked,#allocB .allocItem input:checked")]
     .map(cb=>cb.dataset.p+":"+cb.dataset.k+":"+cb.dataset.i);
