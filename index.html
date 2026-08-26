@@ -5456,13 +5456,21 @@ details.learningGoals{
   padding-right:72px!important;
 }
 .phase2RuleInputWrap .phase2RuleHelpBtn{
-  position:absolute!important;
-  right:14px!important;
+  position:static!important;
+  right:auto!important;
   left:auto!important;
-  top:-18px!important;
+  top:auto!important;
   bottom:auto!important;
   transform:none!important;
   z-index:2;
+  display:inline-flex!important;
+  margin-top:14px!important;
+  margin-left:0!important;
+}
+
+.phase2RuleInputWrap .phase2RuleHelpBtnWrap{
+  display:flex;
+  justify-content:flex-start;
 }
 </style>
 </head>
