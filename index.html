@@ -560,6 +560,18 @@ button.full-width{
   margin-top:2px;
 }
 
+/* Mobile Bedienung: Formulare und Buttons sollen als echte Tap-Ziele behandelt
+   werden und nicht versehentlich in eine Scroll-/Drag-Geste geraten. */
+button,
+select,
+input[type="checkbox"],
+input[type="radio"],
+label.allocItem,
+.personalDecision label,
+.understoodCheck{
+  touch-action:manipulation;
+}
+
 /* Rückfrage-Dialog */
 
 .checkOverlay{
@@ -1607,6 +1619,10 @@ button,
 
 .roundActions .action{
   flex:0 0 auto!important;
+}
+.roundActions .action:disabled{
+  opacity:.48;
+  cursor:default;
 }
 
 @media(max-width:480px){
@@ -4337,7 +4353,7 @@ body.explanationOpen{
 .mysteryCardDelete,
 .mysteryOwnDelete{
   cursor:pointer!important;
-  touch-action:auto!important;
+  touch-action:manipulation!important;
 }
 .mysteryDragRow,
 .mysteryDragHandle{
@@ -9275,6 +9291,11 @@ function renderPersonalSim(){
   if(maxEl)maxEl.textContent=q.max||personalTreeMax(p.length);
   roundCount.textContent=Math.min(q.round,GAME_ROUNDS);
 
+  const finishBtn=document.getElementById("finishRound");
+  if(finishBtn){
+    finishBtn.disabled=(q.collapsed===true)||((q.log||[]).length>=GAME_ROUNDS);
+  }
+
   const desireLabel=needTotal===0 && desireTotal>0 ? "Wünsche" : "Zusätzlich";
   ensureGameSummaryRow(treeCount,"personalSummaryRow","needsStatusNow","desiresStatusNow","Ganz sicher",desireLabel);
   const needsStatusNow=document.getElementById("needsStatusNow");
@@ -9329,15 +9350,19 @@ function stockBand(used,max=TREE_MAX){
 function growOvernight(left,used,max=TREE_MAX,round=1,currentTree=max){
   const [low,high]=stockBand(used,max);
 
-  /* Der Baum bewegt sich schrittweise in Richtung des zur Nutzung passenden
-     Bestandsbereichs. Dadurch wird Belastung sichtbar, ohne dass der Bestand
-     nach einer einzigen Runde unplausibel abstürzt. */
+  /* Statt fast immer nur um eine Frucht zu schwanken, bewegt sich der Bestand
+     mit deutlich sichtbarer Dynamik in Richtung des nutzungsabhängigen Bereichs.
+     Der Vorbestand wirkt weiter als Trägheit, zusätzlich gibt es eine kleine,
+     aber spürbare Schwankung von bis zu zwei Früchten. */
   const randomTarget=rand(low,high);
-  const pace=Math.min(0.42,0.16+Math.max(0,round-1)*0.025);
-  let next=Math.round(currentTree+(randomTarget-currentTree)*pace);
+  const gap=randomTarget-currentTree;
+  const drift=gap>0 ? Math.ceil(gap*0.45) : Math.floor(gap*0.35);
+  const variation=rand(-2,2);
 
-  /* Regeneration kann nur Früchte hinzufügen; der verbliebene Bestand nach
-     der Ernte kann über Nacht nicht kleiner werden. */
+  let next=currentTree+drift+variation;
+
+  /* Über Nacht können nur Früchte nachwachsen: Der Endbestand darf deshalb
+     nicht unter dem nach der Ernte verbliebenen Bestand liegen. */
   next=Math.max(left,next);
   next=Math.min(max,next);
 
@@ -9366,12 +9391,7 @@ function resetPersonalRounds(){
 
 function finishPRound(){
   const s=eState(),q={...s.psim},p=normalizedPersonal(s.personal||[]);
-  if(q.collapsed===true){
-    alert("Dieser Durchlauf ist beendet. Gehe jetzt zur Reflexion weiter oder starte einen neuen Durchlauf.");
-    return;
-  }
-  if((q.log||[]).length>=GAME_ROUNDS){
-    alert("Dieser Durchlauf ist beendet. Gehe jetzt zur Reflexion weiter oder starte einen neuen Durchlauf.");
+  if(q.collapsed===true||(q.log||[]).length>=GAME_ROUNDS){
     return;
   }
   if(p.length<4){
@@ -9424,6 +9444,13 @@ function finishPRound(){
     p.filter(x=>x.kind==="need").length,
     p.filter(x=>x.kind==="desire").length
   );
+  if(!collapsed && q.log.length>=GAME_ROUNDS){
+    const box=document.getElementById("personalThoughtHint");
+    if(box){
+      box.classList.add("active");
+      box.textContent="Dieser Durchlauf ist beendet. Du kannst den Endbestand anschauen, zur Reflexion weitergehen oder die Runden zurücksetzen und eine andere Strategie ausprobieren.";
+    }
+  }
   updatePhase2Progress();
 }
 
@@ -9621,6 +9648,11 @@ function renderAlloc(){
   gTree.textContent=q.tree;
   gRound.textContent=Math.min(q.round,GAME_ROUNDS);
 
+  const groupFinishBtn=document.getElementById("gFinish");
+  if(groupFinishBtn){
+    groupFinishBtn.disabled=(q.collapsed===true)||((q.log||[]).length>=GAME_ROUNDS);
+  }
+
   let summary=document.getElementById("groupSummaryRow");
   if(!summary){
     summary=document.createElement("div");
@@ -9696,12 +9728,7 @@ function resetGroupRounds(){
 function finishGroup(){
   const s=eState(),q={...(s.gsim||{tree:TREE_START,round:1,log:[],selected:[]})},[a,b]=s.profiles;
   if(!q.log)q.log=[];
-  if(q.collapsed===true){
-    alert("Dieser gemeinsame Durchlauf ist beendet. Geht jetzt zur Reflexion weiter oder startet einen neuen Durchlauf.");
-    return;
-  }
-  if(q.log.length>=GAME_ROUNDS){
-    alert("Dieser gemeinsame Durchlauf ist beendet. Geht jetzt zur Reflexion weiter oder startet einen neuen Durchlauf.");
+  if(q.collapsed===true||q.log.length>=GAME_ROUNDS){
     return;
   }
   let used=0,needs=[0,0],des=[0,0];
@@ -9747,6 +9774,13 @@ function finishGroup(){
   }
   suppressThoughtHints=false;
   setGroupThoughtHint(q.log[q.log.length-1],q.tree);
+  if(!collapsed && q.log.length>=GAME_ROUNDS){
+    const box=document.getElementById("groupThoughtHint");
+    if(box){
+      box.classList.add("active");
+      box.textContent="Dieser gemeinsame Durchlauf ist beendet. Ihr könnt den Endbestand anschauen, zur Reflexion weitergehen oder die Runden zurücksetzen und eine andere Strategie ausprobieren.";
+    }
+  }
   updatePhase2Progress();
 }
 
@@ -10814,6 +10848,7 @@ function initMysteryPanZoom(){
   };
   viewport.addEventListener("pointerup",release);
   viewport.addEventListener("pointercancel",release);
+  viewport.addEventListener("lostpointercapture",release);
 
   document.querySelectorAll(".mysteryToolbar [data-pan], .mysteryToolbar [data-zoom]").forEach(btn=>{
     btn.onclick=e=>{
@@ -11283,6 +11318,7 @@ function bindMysteryCard(card){
     card.addEventListener("pointermove",move);
     card.addEventListener("pointerup",up);
     card.addEventListener("pointercancel",up);
+    card.addEventListener("lostpointercapture",up,{once:true});
   };
 }
 
