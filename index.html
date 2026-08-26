@@ -9518,7 +9518,15 @@ function initPSim(){
 function fruitSeriesFromLog(log,start=TREE_START){
   const values=[{round:0,tree:start}];
   (Array.isArray(log)?log:[]).forEach((entry,i)=>{
-    const tree=entry.left===0 ? 0 : Math.max(0,Math.min(TREE_MAX,(Number(entry.left)||0)+(Number(entry.regrow ?? entry.reg)||0)));
+    let tree;
+    if(Number.isFinite(Number(entry.treeAfter))){
+      tree=Number(entry.treeAfter);
+    }else if(entry.collapsed===true){
+      tree=0;
+    }else{
+      tree=(Number(entry.left)||0)+(Number(entry.regrow ?? entry.reg)||0);
+    }
+    tree=Math.max(0,Math.min(TREE_MAX,tree));
     values.push({round:Number(entry.round)||i+1,tree});
   });
   return values;
@@ -9664,7 +9672,7 @@ function stockBand(used,max=TREE_MAX){
   if(items<=2)return [Math.min(19,max),max];
   if(items===3)return [Math.min(17,max),Math.min(20,max)];
   if(items===4)return [Math.min(14,max),Math.min(18,max)];
-  if(items===5)return [Math.min(8,max),Math.min(14,max)];
+  if(items===5)return [Math.min(9,max),Math.min(15,max)];
   if(items===6)return [Math.min(6,max),Math.min(9,max)];
   if(items===7)return [Math.min(4,max),Math.min(7,max)];
   return [Math.min(2,max),Math.min(5,max)];
@@ -9689,9 +9697,9 @@ function growOvernight(left,used,max=TREE_MAX,round=1,currentTree=max){
   next=Math.max(left,next);
   next=Math.min(max,next);
 
-  /* Vor der verpflichtenden zehnten Runde kein technischer Deadlock mit
-     genau einer Frucht. Null bleibt als seltener Worst Case möglich. */
-  if(round<=REFLECTION_MIN_ROUNDS && next<2)next=2;
+  /* In den ersten sechs Runden soll ein einzelner ungünstiger Verlauf
+     den Durchlauf nicht bereits beenden. Ab Runde 7 ist 0 möglich. */
+  if(round<=6 && next<2)next=2;
 
   const reg=Math.max(0,next-left);
   return {reg,next};
@@ -9738,14 +9746,14 @@ async function finishPRound(){
   }
 
   if(used>q.tree){
-    alert("Dafür reichen die Früchte am Baum nicht. Wähle weniger aus.");
+    alert("Nicht genug Früchte vorhanden. Passe deine Auswahl an.");
     return;
   }
 
   const max=q.max||personalTreeMax(p.length);
   const fromTree=q.tree;
   const left=q.tree-used;
-  const collapsed=left===0 && q.round>REFLECTION_MIN_ROUNDS;
+  const collapsed=left===0 && q.round>6;
   const night=growOvernight(left,used,max,q.round,q.tree);
   const reg=night.reg;
   const next=collapsed?0:night.next;
@@ -9759,7 +9767,9 @@ async function finishPRound(){
     needs:validNeeds.length,
     desires:validDesires.length,
     needTotal:p.filter(x=>x.kind==="need").length,
-    desireTotal:p.filter(x=>x.kind==="desire").length
+    desireTotal:p.filter(x=>x.kind==="desire").length,
+    treeAfter:next,
+    collapsed
   });
   Object.assign(q,{tree:next,max,round:q.round+1,selectedNeeds:validNeeds,selectedDesires:validDesires,collapsed:collapsed||q.collapsed===true});
   ePatch({
@@ -10089,24 +10099,27 @@ async function finishGroup(){
   }
 
   if(used>q.tree){
-    alert("Dafür reichen die Früchte am Baum nicht. Wählt weniger aus.");
+    alert("Nicht genug Früchte vorhanden. Passt eure Auswahl an.");
     return;
   }
 
   const fromTree=q.tree;
   const left=q.tree-used;
-  const collapsed=left===0 && q.round>REFLECTION_MIN_ROUNDS;
+  const collapsed=left===0 && q.round>6;
   const night=growOvernight(left,used,TREE_MAX,q.round,q.tree);
   const reg=night.reg;
+  const treeAfter=collapsed?0:night.next;
 
   q.log.push({
     round:q.round,
     needsA:needs[0],needsB:needs[1],
     desA:des[0],desB:des[1],
-    left,reg
+    left,reg,
+    treeAfter,
+    collapsed
   });
 
-  q.tree=collapsed?0:night.next;
+  q.tree=treeAfter;
   q.collapsed=collapsed||q.collapsed===true;
   q.round++;
   q.selected=[...document.querySelectorAll("#allocA .allocItem input:checked,#allocB .allocItem input:checked")]
@@ -10891,7 +10904,7 @@ function setPersonalThoughtHint(lastRound,needTotal,desireTotal){
   const d=lastRound.desires||0;
   let text="";
 
-  if(lastRound.left===0){
+  if(lastRound.collapsed===true){
     text="Du hast den Baum vollständig abgeerntet. Er kann sich nicht mehr erholen. Der Durchlauf endet hier. Schau dir den Verlauf an und überlege in der Reflexion, wie es dazu gekommen ist und was du anders hättest entscheiden können.";
   }else if(needTotal===0 && desireTotal>0 && d===desireTotal){
     text="Du hast dir alle deine Wünsche erfüllt. Und wie geht es dem Baum? Beobachte ihn in den nächsten Runden weiter und entscheide dann, ob das für dich ein gutes Leben ist.";
@@ -10960,7 +10973,7 @@ function setGroupThoughtHint(lastRound,currentTree){
 
   /* Ein leerer Baum hat immer Vorrang vor allen
      Kommentaren zur Verteilung. */
-  if(treeNow===0 || Number(lastRound.left)===0){
+  if(lastRound.collapsed===true || treeNow===0){
     text="Ihr habt den Baum vollständig abgeerntet. Er kann sich nicht mehr erholen. Der Durchlauf endet hier. Schaut euch den Verlauf an und überlegt in der Reflexion, wie es dazu gekommen ist und was ihr anders hättet entscheiden können.";
   }else if(totalN===4 && totalD===4){
     text="Ihr habt alles erfüllt. Und wie geht es dem Baum? Beobachtet ihn in den nächsten Runden weiter und entscheidet dann, ob das für beide ein gutes Leben ist.";
