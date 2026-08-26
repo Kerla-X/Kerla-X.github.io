@@ -560,18 +560,6 @@ button.full-width{
   margin-top:2px;
 }
 
-/* Mobile Bedienung: Formulare und Buttons sollen als echte Tap-Ziele behandelt
-   werden und nicht versehentlich in eine Scroll-/Drag-Geste geraten. */
-button,
-select,
-input[type="checkbox"],
-input[type="radio"],
-label.allocItem,
-.personalDecision label,
-.understoodCheck{
-  touch-action:manipulation;
-}
-
 /* Rückfrage-Dialog */
 
 .checkOverlay{
@@ -3271,6 +3259,9 @@ body.explanationOpen{
 #learn5 .groupTreeColumn{
   width:100%;
 }
+#learn5:not(.phase2Locked) > .roundActions{
+  display:flex!important;
+}
 
 
 .sourceWorldsHeading{
@@ -4429,7 +4420,7 @@ body.explanationOpen{
 .mysteryCardDelete,
 .mysteryOwnDelete{
   cursor:pointer!important;
-  touch-action:manipulation!important;
+  touch-action:auto!important;
 }
 .mysteryDragRow,
 .mysteryDragHandle{
@@ -9001,12 +8992,12 @@ function updatePhase2Progress(){
   const requirementsOk=s.requirementsUnderstood===true;
   const afterBOk=bComplete&&requirementsOk;
   const cRounds=Array.isArray(s.psim?.log)?s.psim.log.length:0;
-  const cComplete=cRounds>=REFLECTION_MIN_ROUNDS||s.psim?.collapsed===true;
+  const cComplete=s.personalRunCompleted===true||cRounds>=REFLECTION_MIN_ROUNDS||s.psim?.collapsed===true;
   const dComplete=cComplete&&s.individualReflectionSaved===true;
   const reflectionOk=dComplete&&s.reflectionUnderstandingConfirmed===true;
   const termsOk=reflectionOk&&s.termsPart1Understood===true&&s.universalTermsUnderstood===true;
   const eRounds=Array.isArray(s.gsim?.log)?s.gsim.log.length:0;
-  const eComplete=dComplete&&termsOk&&(eRounds>=REFLECTION_MIN_ROUNDS||s.gsim?.collapsed===true);
+  const eComplete=dComplete&&termsOk&&(s.groupRunCompleted===true||eRounds>=REFLECTION_MIN_ROUNDS||s.gsim?.collapsed===true);
 
   const a=document.getElementById("learn1");
   const b=document.getElementById("learn2");
@@ -9028,7 +9019,7 @@ function updatePhase2Progress(){
     if(parent.id==="learn1"){
       hint.textContent=hasWorld?"":"Wähle zuerst eine Welt aus.";
     }else if(parent.id==="learn2"){
-      hint.textContent=aComplete?"":"Wähle in Aufgabe A zuerst vier bis sechs Bereiche aus und bestätige deine Auswahl.";
+      hint.textContent=aComplete?"":"Wähle in Aufgabe A zuerst fünf bis sechs Bereiche aus und bestätige deine Auswahl.";
     }else if(parent.id==="learn3"){
       hint.textContent=afterBOk?"":(!bComplete?"Bearbeite zuerst Aufgabe B vollständig.":"Lies zuerst die Erklärung zu den Voraussetzungen und bestätige «Gelesen und verstanden».");
     }else if(parent.id==="learn4"){
@@ -9073,6 +9064,8 @@ function resetAfterWorldChoice(){
   delete s.profiles;
   delete s.profilePoolVersion;
   delete s.gsim;
+  delete s.personalRunCompleted;
+  delete s.groupRunCompleted;
   localStorage.setItem(E_KEY,JSON.stringify(s));
 }
 
@@ -9348,8 +9341,8 @@ function renderFruitChart(containerId,log,start=TREE_START,max=TREE_MAX){
   if(!box)return;
 
   const data=fruitSeriesFromLog(log,start);
-  const width=360,height=220;
-  const pad={l:34,r:16,t:22,b:30};
+  const width=360,height=238;
+  const pad={l:34,r:16,t:22,b:48};
   const innerW=width-pad.l-pad.r;
   const innerH=height-pad.t-pad.b;
   const maxRound=Math.max(10,GAME_ROUNDS,data[data.length-1]?.round||0);
@@ -9371,7 +9364,7 @@ function renderFruitChart(containerId,log,start=TREE_START,max=TREE_MAX){
 
   for(let r=0;r<=maxRound;r+=2){
     const xx=x(r);
-    svg+='<text class="fruitChartLabel" x="'+xx+'" y="'+(height-10)+'" text-anchor="middle">'+r+'</text>';
+    svg+='<text class="fruitChartLabel" x="'+xx+'" y="'+(height-27)+'" text-anchor="middle">'+r+'</text>';
   }
 
   if(data.length){
@@ -9385,7 +9378,7 @@ function renderFruitChart(containerId,log,start=TREE_START,max=TREE_MAX){
     svg+='<text class="fruitChartCurrent" x="'+Math.min(width-pad.r-2,x(last.round)+8)+'" y="'+Math.max(12,y(last.tree)-9)+'">'+last.tree+'</text>';
   }
 
-  svg+='<text class="fruitChartLabel" x="'+(width-pad.r)+'" y="'+(height-10)+'" text-anchor="end">Runden</text>';
+  svg+='<text class="fruitChartLabel" x="'+(pad.l+innerW/2)+'" y="'+(height-6)+'" text-anchor="middle">Runden</text>';
   svg+='</svg>';
   box.innerHTML=svg;
 }
@@ -9521,11 +9514,7 @@ function resetPersonalRounds(){
   const p=normalizedPersonal(eState().personal||[]);
   const max=personalTreeMax(p.length);
   ePatch({
-    psim:{tree:TREE_START,max,round:1,log:[],selectedNeeds:[],selectedDesires:[]},
-    individualReflectionSaved:false,
-    reflectionUnderstandingConfirmed:false,
-    termsPart1Understood:false,
-    universalTermsUnderstood:false
+    psim:{tree:TREE_START,max,round:1,log:[],selectedNeeds:[],selectedDesires:[]}
   });
   renderPersonalSim();
   const hint=document.getElementById("personalThoughtHint");
@@ -9533,6 +9522,7 @@ function resetPersonalRounds(){
     hint.classList.remove("active");
     hint.textContent="";
   }
+  suppressThoughtHints=false;
   updatePhase2Progress();
 }
 
@@ -9581,11 +9571,11 @@ function finishPRound(){
     desireTotal:p.filter(x=>x.kind==="desire").length
   });
   Object.assign(q,{tree:next,max,round:q.round+1,selectedNeeds:validNeeds,selectedDesires:validDesires,collapsed:collapsed||q.collapsed===true});
-  ePatch({psim:q});
+  ePatch({
+    psim:q,
+    personalRunCompleted:s.personalRunCompleted===true||collapsed||q.log.length>=REFLECTION_MIN_ROUNDS
+  });
   renderPersonalSim();
-  if(collapsed){
-    alert("Der Baum ist leer. Dieser Durchlauf endet hier. Schau dir den Verlauf an und gehe zur Reflexion weiter.");
-  }
   suppressThoughtHints=false;
   setPersonalThoughtHint(q.log[q.log.length-1],
     p.filter(x=>x.kind==="need").length,
@@ -9875,6 +9865,7 @@ function resetGroupRounds(){
     hint.classList.remove("active");
     hint.textContent="";
   }
+  suppressThoughtHints=false;
   updatePhase2Progress();
 }
 
@@ -9920,11 +9911,11 @@ function finishGroup(){
   q.round++;
   q.selected=[...document.querySelectorAll("#allocA .allocItem input:checked,#allocB .allocItem input:checked")]
     .map(cb=>cb.dataset.p+":"+cb.dataset.k+":"+cb.dataset.i);
-  ePatch({gsim:q});
+  ePatch({
+    gsim:q,
+    groupRunCompleted:s.groupRunCompleted===true||collapsed||q.log.length>=REFLECTION_MIN_ROUNDS
+  });
   renderAlloc();
-  if(collapsed){
-    alert("Der Baum ist leer. Dieser gemeinsame Durchlauf endet hier. Schaut euch den Verlauf an und geht zur Reflexion weiter.");
-  }
   suppressThoughtHints=false;
   setGroupThoughtHint(q.log[q.log.length-1],q.tree);
   if(!collapsed && q.log.length>=GAME_ROUNDS){
@@ -11001,7 +10992,6 @@ function initMysteryPanZoom(){
   };
   viewport.addEventListener("pointerup",release);
   viewport.addEventListener("pointercancel",release);
-  viewport.addEventListener("lostpointercapture",release);
 
   document.querySelectorAll(".mysteryToolbar [data-pan], .mysteryToolbar [data-zoom]").forEach(btn=>{
     btn.onclick=e=>{
@@ -11471,7 +11461,6 @@ function bindMysteryCard(card){
     card.addEventListener("pointermove",move);
     card.addEventListener("pointerup",up);
     card.addEventListener("pointercancel",up);
-    card.addEventListener("lostpointercapture",up,{once:true});
   };
 }
 
@@ -11957,7 +11946,7 @@ function initErarbeitung(){
         if(!s.selectedWorldId){
           alert("Du musst zuerst eine Welt auswählen.");
         }else if(card.id==="learn2" && s.stageAComplete!==true){
-          alert("Wähle in Aufgabe A zuerst vier bis sechs Bereiche aus und bestätige deine Auswahl.");
+          alert("Wähle in Aufgabe A zuerst fünf bis sechs Bereiche aus und bestätige deine Auswahl.");
         }else if((card.id==="learn3"||card.id==="learn4"||card.id==="learn5"||card.id==="learn7") && s.stageBComplete!==true){
           alert("Du musst zuerst Aufgabe B fertig bearbeiten.");
         }else if((card.id==="learn3"||card.id==="learn4"||card.id==="learn5"||card.id==="learn7") && s.requirementsUnderstood!==true){
