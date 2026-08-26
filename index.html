@@ -5762,6 +5762,7 @@ details.learningGoals{
 <strong>ⓘ Hinweis</strong>
 <ul>
 <li>Alle Karten liegen bereits auf der Arbeitsfläche. Verschiebt sie so, dass für euch wichtige Zusammenhänge sichtbar werden.</li>
+<li>Ihr könnt die Arbeitsfläche frei bewegen. Zieht dazu auf eine freie Stelle der Arbeitsfläche. Mit dem Mausrad oder mit zwei Fingern könnt ihr hinein- und herauszoomen.</li>
 <li>Verbindet Karten, die für euch zusammenhängen. Klickt oder tippt dazu auf den leeren Punkt rechts unten in einer Karte und danach auf den Punkt einer zweiten Karte.</li>
 <li>Beschriftet wichtige Verbindungen kurz: Wie hängen die beiden Aussagen zusammen?</li>
 <li>Ihr müsst nicht alle Karten miteinander verbinden.</li>
@@ -9753,10 +9754,25 @@ async function finishPRound(){
   const max=q.max||personalTreeMax(p.length);
   const fromTree=q.tree;
   const left=q.tree-used;
-  const collapsed=left===0 && q.round>6;
+
+  const exhaustedRoundsRemaining=Math.max(0,Number(q.exhaustedRoundsRemaining)||0);
+  const repeatedExhaustion=left===0 && exhaustedRoundsRemaining>0;
+  const collapsed=repeatedExhaustion && q.round>6;
+
   const night=growOvernight(left,used,max,q.round,q.tree);
   const reg=night.reg;
   const next=collapsed?0:night.next;
+
+  let nextExhaustedRoundsRemaining=exhaustedRoundsRemaining;
+  if(collapsed){
+    nextExhaustedRoundsRemaining=0;
+  }else if(left===0){
+    /* Erstes (oder noch geschütztes) vollständiges Abernten:
+       normale Regeneration, danach drei Runden lang besonders empfindlich. */
+    nextExhaustedRoundsRemaining=3;
+  }else if(nextExhaustedRoundsRemaining>0){
+    nextExhaustedRoundsRemaining-=1;
+  }
 
   q.log=(q.log||[]);
   q.log.push({
@@ -9769,9 +9785,18 @@ async function finishPRound(){
     needTotal:p.filter(x=>x.kind==="need").length,
     desireTotal:p.filter(x=>x.kind==="desire").length,
     treeAfter:next,
-    collapsed
+    collapsed,
+    exhaustedRoundsRemaining:nextExhaustedRoundsRemaining
   });
-  Object.assign(q,{tree:next,max,round:q.round+1,selectedNeeds:validNeeds,selectedDesires:validDesires,collapsed:collapsed||q.collapsed===true});
+  Object.assign(q,{
+    tree:next,
+    max,
+    round:q.round+1,
+    selectedNeeds:validNeeds,
+    selectedDesires:validDesires,
+    collapsed:collapsed||q.collapsed===true,
+    exhaustedRoundsRemaining:nextExhaustedRoundsRemaining
+  });
   ePatch({
     psim:q,
     personalRunCompleted:s.personalRunCompleted===true||collapsed||q.log.length>=REFLECTION_MIN_ROUNDS
@@ -10105,10 +10130,23 @@ async function finishGroup(){
 
   const fromTree=q.tree;
   const left=q.tree-used;
-  const collapsed=left===0 && q.round>6;
+
+  const exhaustedRoundsRemaining=Math.max(0,Number(q.exhaustedRoundsRemaining)||0);
+  const repeatedExhaustion=left===0 && exhaustedRoundsRemaining>0;
+  const collapsed=repeatedExhaustion && q.round>6;
+
   const night=growOvernight(left,used,TREE_MAX,q.round,q.tree);
   const reg=night.reg;
   const treeAfter=collapsed?0:night.next;
+
+  let nextExhaustedRoundsRemaining=exhaustedRoundsRemaining;
+  if(collapsed){
+    nextExhaustedRoundsRemaining=0;
+  }else if(left===0){
+    nextExhaustedRoundsRemaining=3;
+  }else if(nextExhaustedRoundsRemaining>0){
+    nextExhaustedRoundsRemaining-=1;
+  }
 
   q.log.push({
     round:q.round,
@@ -10116,11 +10154,13 @@ async function finishGroup(){
     desA:des[0],desB:des[1],
     left,reg,
     treeAfter,
-    collapsed
+    collapsed,
+    exhaustedRoundsRemaining:nextExhaustedRoundsRemaining
   });
 
   q.tree=treeAfter;
   q.collapsed=collapsed||q.collapsed===true;
+  q.exhaustedRoundsRemaining=nextExhaustedRoundsRemaining;
   q.round++;
   q.selected=[...document.querySelectorAll("#allocA .allocItem input:checked,#allocB .allocItem input:checked")]
     .map(cb=>cb.dataset.p+":"+cb.dataset.k+":"+cb.dataset.i);
