@@ -9850,23 +9850,26 @@ async function finishPRound(){
   const fromTree=q.tree;
   const left=q.tree-used;
 
+  /* Erschöpfung richtet sich danach, wie stark der Baum abgeerntet wird:
+     0 Früchte übrig = 2 Belastungspunkte, 1–2 Früchte = 1 Punkt.
+     Bleiben mehr als 2 Früchte, baut sich die Belastung um 1 Punkt ab.
+     Ab 3 Punkten kollabiert der Baum (frühestens ab Runde 7). */
+  const exhaustionScore=Math.max(0,Math.min(2,Number(q.exhaustionScore)||0));
+  const stressPoints=left===0 ? 2 : (left<=2 ? 1 : 0);
+  const collapsed=stressPoints>0 && (exhaustionScore+stressPoints)>=3 && q.round>6;
+
   const night=growOvernight(left,used,max,q.round,q.tree);
   const reg=night.reg;
-  const regenerated=night.next;
+  const next=collapsed?0:night.next;
 
-  /* Erschöpfung ist nur an einem Zustand erkennbar, den die Lernenden auch
-     sehen: 0–2 Früchte NACH der Nacht. Zwei solche Ereignisse innerhalb
-     von drei Runden führen zum Kollaps (frühestens ab Runde 7). */
-  const recentExhaustionRounds=(Array.isArray(q.exhaustionRounds)?q.exhaustionRounds:[])
-    .map(Number)
-    .filter(r=>Number.isFinite(r) && r>=q.round-2);
-  const exhaustedTonight=regenerated<=2;
-  const repeatedExhaustion=exhaustedTonight && recentExhaustionRounds.length>=1;
-  const collapsed=repeatedExhaustion && q.round>6;
-  const next=collapsed?0:regenerated;
-  const nextExhaustionRounds=collapsed
-    ? [...recentExhaustionRounds,q.round]
-    : (exhaustedTonight ? [...recentExhaustionRounds,q.round] : recentExhaustionRounds);
+  let nextExhaustionScore;
+  if(collapsed){
+    nextExhaustionScore=3;
+  }else if(stressPoints>0){
+    nextExhaustionScore=Math.min(2,exhaustionScore+stressPoints);
+  }else{
+    nextExhaustionScore=Math.max(0,exhaustionScore-1);
+  }
 
   q.log=(q.log||[]);
   q.log.push({
@@ -9880,8 +9883,7 @@ async function finishPRound(){
     desireTotal:p.filter(x=>x.kind==="desire").length,
     treeAfter:next,
     collapsed,
-    exhaustedTonight,
-    exhaustionRounds:nextExhaustionRounds
+    exhaustionScore:nextExhaustionScore
   });
   Object.assign(q,{
     tree:next,
@@ -9890,7 +9892,7 @@ async function finishPRound(){
     selectedNeeds:validNeeds,
     selectedDesires:validDesires,
     collapsed:collapsed||q.collapsed===true,
-    exhaustionRounds:nextExhaustionRounds
+    exhaustionScore:nextExhaustionScore
   });
   ePatch({
     psim:q,
@@ -10226,20 +10228,22 @@ async function finishGroup(){
   const fromTree=q.tree;
   const left=q.tree-used;
 
+  const exhaustionScore=Math.max(0,Math.min(2,Number(q.exhaustionScore)||0));
+  const stressPoints=left===0 ? 2 : (left<=2 ? 1 : 0);
+  const collapsed=stressPoints>0 && (exhaustionScore+stressPoints)>=3 && q.round>6;
+
   const night=growOvernight(left,used,TREE_MAX,q.round,q.tree);
   const reg=night.reg;
-  const regenerated=night.next;
+  const treeAfter=collapsed?0:night.next;
 
-  const recentExhaustionRounds=(Array.isArray(q.exhaustionRounds)?q.exhaustionRounds:[])
-    .map(Number)
-    .filter(r=>Number.isFinite(r) && r>=q.round-2);
-  const exhaustedTonight=regenerated<=2;
-  const repeatedExhaustion=exhaustedTonight && recentExhaustionRounds.length>=1;
-  const collapsed=repeatedExhaustion && q.round>6;
-  const treeAfter=collapsed?0:regenerated;
-  const nextExhaustionRounds=collapsed
-    ? [...recentExhaustionRounds,q.round]
-    : (exhaustedTonight ? [...recentExhaustionRounds,q.round] : recentExhaustionRounds);
+  let nextExhaustionScore;
+  if(collapsed){
+    nextExhaustionScore=3;
+  }else if(stressPoints>0){
+    nextExhaustionScore=Math.min(2,exhaustionScore+stressPoints);
+  }else{
+    nextExhaustionScore=Math.max(0,exhaustionScore-1);
+  }
 
   q.log.push({
     round:q.round,
@@ -10248,13 +10252,12 @@ async function finishGroup(){
     left,reg,
     treeAfter,
     collapsed,
-    exhaustedTonight,
-    exhaustionRounds:nextExhaustionRounds
+    exhaustionScore:nextExhaustionScore
   });
 
   q.tree=treeAfter;
   q.collapsed=collapsed||q.collapsed===true;
-  q.exhaustionRounds=nextExhaustionRounds;
+  q.exhaustionScore=nextExhaustionScore;
   q.round++;
   q.selected=[...document.querySelectorAll("#allocA .allocItem input:checked,#allocB .allocItem input:checked")]
     .map(cb=>cb.dataset.p+":"+cb.dataset.k+":"+cb.dataset.i);
