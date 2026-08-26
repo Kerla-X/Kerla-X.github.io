@@ -9307,43 +9307,45 @@ function renderPersonalSim(){
 }
 
 /* Regeneration eines begrenzten Systems:
-   Entscheidend ist die gesamte Nutzung, nicht die Einordnung als Need oder Desire.
-   Bei einem mittleren Restbestand kann sich der Baum besonders gut erholen.
-   Erst bei sehr niedrigem Bestand bricht diese Erholungsfähigkeit deutlich ein.
-   Zusätzliche Ansprüche erhöhen den Druck nur leicht, damit sechs gleichzeitig
-   erfüllte Dinge möglich bleiben, aber über viele Runden sichtbar belasten. */
-function regen(left,used,max=TREE_MAX){
-  if(left<=0)return rand(1,2);
+   Die Zahl der gleichzeitig erfüllten Ansprüche beeinflusst, in welchem
+   Bestandsbereich sich der Baum nach einer Nacht typischerweise einpendelt.
+   Weniger Nutzung lässt mehr Reserve und Erholung zu; mehr Nutzung drückt den
+   Bestand sichtbar nach unten. Needs und Desires werden dabei gleich behandelt. */
+function stockBand(used,max=TREE_MAX){
+  const items=Math.max(1,Math.round(used/FRUIT_COST));
 
-  let reg;
-  if(left<=2) reg=rand(2,3);
-  else if(left<=4) reg=rand(4,6);
-  else if(left<=7) reg=rand(9,11);
-  else if(left<=11) reg=rand(10,12);
-  else if(left<=15) reg=rand(8,10);
-  else reg=rand(5,7);
-
-  /* Ab dem sechsten gleichzeitig erfüllten Anspruch nur eine leichte
-     zusätzliche Belastung; sieben oder acht Ansprüche wirken stärker. */
-  const itemCount=Math.round(used/FRUIT_COST);
-  const pressure=Math.max(0,itemCount-5);
-  reg-=pressure;
-
-  return Math.max(1,reg);
+  /* Langfristige Zielbereiche bei dauerhaft gleicher Nutzung.
+     Sie sind keine festen Endwerte: Zufall, Ausgangsbestand und Änderungen
+     der Strategie sorgen weiterhin für unterschiedliche Verläufe. */
+  if(items<=2)return [Math.min(19,max),max];
+  if(items===3)return [Math.min(17,max),Math.min(20,max)];
+  if(items===4)return [Math.min(14,max),Math.min(18,max)];
+  if(items===5)return [Math.min(8,max),Math.min(14,max)];
+  if(items===6)return [Math.min(6,max),Math.min(9,max)];
+  if(items===7)return [Math.min(4,max),Math.min(7,max)];
+  return [Math.min(2,max),Math.min(5,max)];
 }
 
-function growOvernight(left,used,max=TREE_MAX,round=1){
-  const healthyFloor=Math.min(18,max);
-  const nightCeiling=rand(healthyFloor,max);
-  let reg=Math.min(Math.max(0,nightCeiling-left),regen(left,used,max));
-  let next=Math.min(max,left+reg);
+function growOvernight(left,used,max=TREE_MAX,round=1,currentTree=max){
+  const [low,high]=stockBand(used,max);
 
-  /* Kein technischer Deadlock vor der verpflichtenden zehnten Runde:
-     Mindestens zwei Früchte müssen für eine weitere Auswahl verfügbar sein. */
-  if(round<REFLECTION_MIN_ROUNDS && next===1){
-    reg+=1;
-    next=2;
-  }
+  /* Der Baum bewegt sich schrittweise in Richtung des zur Nutzung passenden
+     Bestandsbereichs. Dadurch wird Belastung sichtbar, ohne dass der Bestand
+     nach einer einzigen Runde unplausibel abstürzt. */
+  const randomTarget=rand(low,high);
+  const pace=Math.min(0.42,0.16+Math.max(0,round-1)*0.025);
+  let next=Math.round(currentTree+(randomTarget-currentTree)*pace);
+
+  /* Regeneration kann nur Früchte hinzufügen; der verbliebene Bestand nach
+     der Ernte kann über Nacht nicht kleiner werden. */
+  next=Math.max(left,next);
+  next=Math.min(max,next);
+
+  /* Vor der verpflichtenden zehnten Runde kein technischer Deadlock mit
+     genau einer Frucht. Null bleibt als seltener Worst Case möglich. */
+  if(round<REFLECTION_MIN_ROUNDS && next===1)next=2;
+
+  const reg=Math.max(0,next-left);
   return {reg,next};
 }
 
@@ -9396,7 +9398,7 @@ function finishPRound(){
   const max=q.max||personalTreeMax(p.length);
   const left=q.tree-used;
   const collapsed=left===0;
-  const night=growOvernight(left,used,max,q.round);
+  const night=growOvernight(left,used,max,q.round,q.tree);
   const reg=night.reg;
   const next=collapsed?0:night.next;
 
@@ -9723,7 +9725,7 @@ function finishGroup(){
 
   const left=q.tree-used;
   const collapsed=left===0;
-  const night=growOvernight(left,used,TREE_MAX,q.round);
+  const night=growOvernight(left,used,TREE_MAX,q.round,q.tree);
   const reg=night.reg;
 
   q.log.push({
