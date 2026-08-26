@@ -880,7 +880,53 @@ button.full-width{
 
 
 /* ===== Erarbeitung V3 ===== */
-.sortList,.needEditors,.miniCards,.allocList{display:grid;gap:10px}.sortRow{display:grid;grid-template-columns:minmax(150px,1fr) 2fr;gap:12px;align-items:center;padding:11px;border:1px solid #ddd;border-radius:9px}.sortChoices{display:flex;gap:12px;flex-wrap:wrap;font-size:13px}.hardDecision{display:grid;grid-template-columns:1fr 2fr;gap:12px;margin:14px 0;padding:14px;background:#fff7df;border-radius:10px}.hidden{display:none!important}.needEditor{display:grid;grid-template-columns:1fr 1.4fr 1.4fr;gap:10px;padding:12px;background:#faf9f6;border:1px solid #ddd;border-radius:10px}.reqRow{display:flex;justify-content:space-between;gap:15px;padding:8px 0;border-bottom:1px solid #d9e7ed}.fruitIcons{color:#f4c84a;letter-spacing:3px;text-shadow:0 1px #7a6530}.treeStory{display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:center}.storyTree{position:relative;width:140px;height:125px}.storyCrown{position:absolute;left:15px;top:4px;width:110px;height:78px;background:#263d73;border-radius:42% 48% 40% 46%;image-rendering:pixelated}.storyTrunk{position:absolute;left:61px;top:70px;width:20px;height:50px;background:#7d4aa8}.storyFruit{position:absolute;width:10px;height:10px;background:#f4c84a}.f1{left:40px;top:25px}.f2{left:70px;top:18px}.f3{left:95px;top:32px}.f4{left:54px;top:48px}.f5{left:84px;top:54px}.simLayout{display:grid;grid-template-columns:minmax(280px,1fr) minmax(300px,1fr);gap:22px;align-items:start}.pixelTree{position:relative;width:min(100%,430px);aspect-ratio:1.35;margin:auto}.pixelCrown{position:absolute;left:8%;top:3%;width:84%;height:68%;background:#263d73;clip-path:polygon(18% 10%,38% 2%,50% 10%,67% 2%,85% 16%,96% 37%,89% 61%,72% 74%,51% 70%,32% 78%,11% 64%,3% 40%)}.pixelTrunk{position:absolute;left:45%;top:63%;width:12%;height:34%;background:#7d4aa8}.pixelFruit{position:absolute;width:4.3%;aspect-ratio:1;background:#f4c84a;box-shadow:2px 2px 0 #b49327}
+.sortList,.needEditors,.miniCards,.allocList{display:grid;gap:10px}.sortRow{display:grid;grid-template-columns:minmax(150px,1fr) 2fr;gap:12px;align-items:center;padding:11px;border:1px solid #ddd;border-radius:9px}.sortChoices{display:flex;gap:12px;flex-wrap:wrap;font-size:13px}.hardDecision{display:grid;grid-template-columns:1fr 2fr;gap:12px;margin:14px 0;padding:14px;background:#fff7df;border-radius:10px}.hidden{display:none!important}.needEditor{display:grid;grid-template-columns:1fr 1.4fr 1.4fr;gap:10px;padding:12px;background:#faf9f6;border:1px solid #ddd;border-radius:10px}.reqRow{display:flex;justify-content:space-between;gap:15px;padding:8px 0;border-bottom:1px solid #d9e7ed}.fruitIcons{color:#f4c84a;letter-spacing:3px;text-shadow:0 1px #7a6530}.treeStory{display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:center}.storyTree{position:relative;width:140px;height:125px}.storyCrown{position:absolute;left:15px;top:4px;width:110px;height:78px;background:#263d73;border-radius:42% 48% 40% 46%;image-rendering:pixelated}.storyTrunk{position:absolute;left:61px;top:70px;width:20px;height:50px;background:#7d4aa8}.storyFruit{position:absolute;width:10px;height:10px;background:#f4c84a}.f1{left:40px;top:25px}.f2{left:70px;top:18px}.f3{left:95px;top:32px}.f4{left:54px;top:48px}.f5{left:84px;top:54px}.simLayout{display:grid;grid-template-columns:minmax(280px,1fr) minmax(300px,1fr);gap:22px;align-items:start}.pixelTree{position:relative;width:min(100%,430px);aspect-ratio:1.35;margin:auto}.pixelCrown{position:absolute;left:8%;top:3%;width:84%;height:68%;background:#263d73;clip-path:polygon(18% 10%,38% 2%,50% 10%,67% 2%,85% 16%,96% 37%,89% 61%,72% 74%,51% 70%,32% 78%,11% 64%,3% 40%)}.pixelTrunk{position:absolute;left:45%;top:63%;width:12%;height:34%;background:#7d4aa8}
+.pixelTreeDiamond{
+  position:absolute;
+  left:51%;
+  top:80%;
+  width:6.4%;
+  aspect-ratio:1;
+  transform:translate(-50%,-50%) rotate(45deg);
+  background:#49bdf2;
+  border:2px solid #1f7fae;
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,.24),
+    0 0 6px rgba(73,189,242,.52);
+  z-index:1;
+}
+.pixelTreeDiamond::before{
+  content:"";
+  position:absolute;
+  inset:18%;
+  border-top:2px solid rgba(255,255,255,.7);
+  border-left:2px solid rgba(255,255,255,.38);
+}
+.pixelTree:has(.treeNightOverlay.active) .pixelTreeDiamond{
+  animation:treeDiamondGlow 2.8s ease-in-out 1 both;
+}
+@keyframes treeDiamondGlow{
+  0%,12%{
+    filter:brightness(.95);
+    box-shadow:
+      inset 0 0 0 2px rgba(255,255,255,.22),
+      0 0 5px rgba(73,189,242,.46);
+  }
+  50%{
+    filter:brightness(1.95);
+    box-shadow:
+      inset 0 0 0 2px rgba(255,255,255,.42),
+      0 0 16px rgba(120,230,255,1),
+      0 0 28px rgba(73,189,242,.72);
+  }
+  100%{
+    filter:brightness(1);
+    box-shadow:
+      inset 0 0 0 2px rgba(255,255,255,.24),
+      0 0 6px rgba(73,189,242,.50);
+  }
+}
+.pixelFruit{position:absolute;width:4.3%;aspect-ratio:1;background:#f4c84a;box-shadow:2px 2px 0 #b49327}
 .pixelTree{overflow:hidden}
 .treeNightOverlay{
   position:absolute;inset:0;z-index:2;pointer-events:none;
@@ -5620,7 +5666,7 @@ details.learningGoals{
 </div><p class="taskInstruction" data-t="t3.goal">Wähle aus, was du in dieser Runde bekommen möchtest. Beim Klick auf «Runde abschliessen» werden die dafür nötigen Früchte (gelbe Quadrate) vom Baum genommen. Spiele mindestens 10 Runden und beobachte, wie sich der Bestand verändert. Probiere, dir Needs oder Desires zu erfüllen, aber achte auch darauf, wie es dem Baum geht. Es kann spannend sein, mehrere Durchläufe zu spielen und dabei bewusst unterschiedliche Strategien auszuprobieren.</p><div class="requirementGrid" id="taskCRequirements"></div>
 <div class="treeChartLayout">
   <div class="treeChartTreeColumn">
-    <div class="pixelTree" id="pixelTree"><div class="pixelCrown"></div><div class="pixelTrunk"></div><div id="fruitLayer"></div></div>
+    <div class="pixelTree" id="pixelTree"><div class="pixelCrown"></div><div class="pixelTrunk"></div><div class="pixelTreeDiamond" aria-hidden="true"></div><div id="fruitLayer"></div></div>
     <div class="simNumbers simNumbersHidden" aria-hidden="true"><strong><span data-t="sim.tree">Am Baum</span>: <span id="treeCount">22</span>/<span id="treeMaxCount">22</span></strong><strong><span data-t="sim.round">Runde</span>: <span id="roundCount">1</span></strong></div>
   </div>
   <div class="fruitChartBox" id="personalFruitChart" aria-label="Diagramm: Früchte im Verlauf"></div>
@@ -5704,6 +5750,7 @@ details.learningGoals{
 <div class="pixelTree groupTree">
 <div class="pixelCrown"></div>
 <div class="pixelTrunk"></div>
+<div class="pixelTreeDiamond" aria-hidden="true"></div>
 <div id="groupFruitLayer"></div>
 </div>
 </div>
@@ -9755,23 +9802,21 @@ async function finishPRound(){
   const fromTree=q.tree;
   const left=q.tree-used;
 
-  const exhaustedRoundsRemaining=Math.max(0,Number(q.exhaustedRoundsRemaining)||0);
-  const repeatedExhaustion=left===0 && exhaustedRoundsRemaining>0;
-  const collapsed=repeatedExhaustion && q.round>6;
+  const exhaustionScore=Math.max(0,Math.min(2,Number(q.exhaustionScore)||0));
+  const stressPoints=left===0 ? 2 : (left<=2 ? 1 : 0);
+  const collapsed=stressPoints>0 && (exhaustionScore+stressPoints)>=3 && q.round>6;
 
   const night=growOvernight(left,used,max,q.round,q.tree);
   const reg=night.reg;
   const next=collapsed?0:night.next;
 
-  let nextExhaustedRoundsRemaining=exhaustedRoundsRemaining;
+  let nextExhaustionScore;
   if(collapsed){
-    nextExhaustedRoundsRemaining=0;
-  }else if(left===0){
-    /* Erstes (oder noch geschütztes) vollständiges Abernten:
-       normale Regeneration, danach drei Runden lang besonders empfindlich. */
-    nextExhaustedRoundsRemaining=3;
-  }else if(nextExhaustedRoundsRemaining>0){
-    nextExhaustedRoundsRemaining-=1;
+    nextExhaustionScore=3;
+  }else if(stressPoints>0){
+    nextExhaustionScore=Math.min(2,exhaustionScore+stressPoints);
+  }else{
+    nextExhaustionScore=Math.max(0,exhaustionScore-1);
   }
 
   q.log=(q.log||[]);
@@ -9786,7 +9831,7 @@ async function finishPRound(){
     desireTotal:p.filter(x=>x.kind==="desire").length,
     treeAfter:next,
     collapsed,
-    exhaustedRoundsRemaining:nextExhaustedRoundsRemaining
+    exhaustionScore:nextExhaustionScore
   });
   Object.assign(q,{
     tree:next,
@@ -9795,7 +9840,7 @@ async function finishPRound(){
     selectedNeeds:validNeeds,
     selectedDesires:validDesires,
     collapsed:collapsed||q.collapsed===true,
-    exhaustedRoundsRemaining:nextExhaustedRoundsRemaining
+    exhaustionScore:nextExhaustionScore
   });
   ePatch({
     psim:q,
@@ -10131,21 +10176,21 @@ async function finishGroup(){
   const fromTree=q.tree;
   const left=q.tree-used;
 
-  const exhaustedRoundsRemaining=Math.max(0,Number(q.exhaustedRoundsRemaining)||0);
-  const repeatedExhaustion=left===0 && exhaustedRoundsRemaining>0;
-  const collapsed=repeatedExhaustion && q.round>6;
+  const exhaustionScore=Math.max(0,Math.min(2,Number(q.exhaustionScore)||0));
+  const stressPoints=left===0 ? 2 : (left<=2 ? 1 : 0);
+  const collapsed=stressPoints>0 && (exhaustionScore+stressPoints)>=3 && q.round>6;
 
   const night=growOvernight(left,used,TREE_MAX,q.round,q.tree);
   const reg=night.reg;
   const treeAfter=collapsed?0:night.next;
 
-  let nextExhaustedRoundsRemaining=exhaustedRoundsRemaining;
+  let nextExhaustionScore;
   if(collapsed){
-    nextExhaustedRoundsRemaining=0;
-  }else if(left===0){
-    nextExhaustedRoundsRemaining=3;
-  }else if(nextExhaustedRoundsRemaining>0){
-    nextExhaustedRoundsRemaining-=1;
+    nextExhaustionScore=3;
+  }else if(stressPoints>0){
+    nextExhaustionScore=Math.min(2,exhaustionScore+stressPoints);
+  }else{
+    nextExhaustionScore=Math.max(0,exhaustionScore-1);
   }
 
   q.log.push({
@@ -10155,12 +10200,12 @@ async function finishGroup(){
     left,reg,
     treeAfter,
     collapsed,
-    exhaustedRoundsRemaining:nextExhaustedRoundsRemaining
+    exhaustionScore:nextExhaustionScore
   });
 
   q.tree=treeAfter;
   q.collapsed=collapsed||q.collapsed===true;
-  q.exhaustedRoundsRemaining=nextExhaustedRoundsRemaining;
+  q.exhaustionScore=nextExhaustionScore;
   q.round++;
   q.selected=[...document.querySelectorAll("#allocA .allocItem input:checked,#allocB .allocItem input:checked")]
     .map(cb=>cb.dataset.p+":"+cb.dataset.k+":"+cb.dataset.i);
