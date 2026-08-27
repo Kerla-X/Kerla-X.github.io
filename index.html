@@ -9841,19 +9841,19 @@ async function finishPRound(){
   /* Erschöpfung:
      Bleiben nach der Ernte 0 oder 1 Frucht übrig, steigt die Belastung um 1.
      Erholt sich der Baum über Nacht auf mindestens 6 Früchte, sinkt sie um 1.
-     Ein Kollaps tritt erst ein, wenn nach der Ernte 0 Früchte übrig sind
-     und 5 Belastungspunkte erreicht sind. Es gibt keine Rundensperre. */
-  const exhaustionScore=Math.max(0,Math.min(5,Number(q.exhaustionScore)||0));
+     Ein Kollaps tritt bei 0 Restfrüchten ab 5 Belastungspunkten ein,
+     bei 1 Restfrucht erst ab 6 Belastungspunkten. Es gibt keine Rundensperre. */
+  const exhaustionScore=Math.max(0,Math.min(6,Number(q.exhaustionScore)||0));
   const stressPoints=left<=1 ? 1 : 0;
-  const stressedScore=Math.min(5,exhaustionScore+stressPoints);
-  const collapsed=left===0 && stressedScore>=5;
+  const stressedScore=Math.min(6,exhaustionScore+stressPoints);
+  const collapsed=(left===0 && stressedScore>=5)||(left===1 && stressedScore>=6);
 
   const night=growOvernight(left,used,max,q.round,q.tree);
   const reg=collapsed?0:night.reg;
   const next=collapsed?0:night.next;
 
   const nextExhaustionScore=collapsed
-    ? 5
+    ? stressedScore
     : (night.next>=6 ? Math.max(0,stressedScore-1) : stressedScore);
 
   q.log=(q.log||[]);
@@ -10213,17 +10213,17 @@ async function finishGroup(){
   const fromTree=q.tree;
   const left=q.tree-used;
 
-  const exhaustionScore=Math.max(0,Math.min(5,Number(q.exhaustionScore)||0));
+  const exhaustionScore=Math.max(0,Math.min(6,Number(q.exhaustionScore)||0));
   const stressPoints=left<=1 ? 1 : 0;
-  const stressedScore=Math.min(5,exhaustionScore+stressPoints);
-  const collapsed=left===0 && stressedScore>=5;
+  const stressedScore=Math.min(6,exhaustionScore+stressPoints);
+  const collapsed=(left===0 && stressedScore>=5)||(left===1 && stressedScore>=6);
 
   const night=growOvernight(left,used,TREE_MAX,q.round,q.tree);
   const reg=collapsed?0:night.reg;
   const treeAfter=collapsed?0:night.next;
 
   const nextExhaustionScore=collapsed
-    ? 5
+    ? stressedScore
     : (night.next>=6 ? Math.max(0,stressedScore-1) : stressedScore);
 
   q.log.push({
