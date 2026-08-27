@@ -3081,7 +3081,7 @@ button.action,
 }
 
 
-/* Persönliche Auswahl: 4–6 Bereiche */
+/* Persönliche Auswahl: 6 Bereiche */
 .categorySelectGrid{display:grid;gap:10px}
 .categorySelectRow{display:grid;grid-template-columns:42px minmax(0,1fr);gap:10px;align-items:center}
 .categorySelectRow .slotNumber{font-weight:800;text-align:center}
@@ -5679,16 +5679,16 @@ details.learningGoals{
 <section class="learnTasks sourceDependent">
 <article class="learnCard phase2Lockable phase2Locked" id="learn1">
 <span class="taskLabel">Aufgabe A</span>
-<h2>Fünf bis sechs Bereiche auswählen</h2>
+<h2>Sechs Bereiche auswählen</h2>
 <p class="phase2LockHint">Wähle zuerst eine Welt aus.</p>
-<p class="taskInstruction">Wähle fünf bis sechs verschiedene Bereiche aus deiner Welt aus, die du genauer anschauen möchtest.</p>
+<p class="taskInstruction">Wähle sechs verschiedene Bereiche aus deiner Welt aus, die du genauer anschauen möchtest.</p>
 <div class="sortList" id="categorySort"></div>
 <button class="action compactAction" id="confirmSort">Meine Auswahl bestätigen</button>
 </article>
 <article class="learnCard phase2Lockable phase2Locked" id="learn2">
 <span class="taskLabel">Aufgabe B</span>
 <h2>Genauer beschreiben und entscheiden</h2>
-<p class="phase2LockHint">Wähle in Aufgabe A zuerst fünf bis sechs Bereiche aus.</p>
+<p class="phase2LockHint">Wähle in Aufgabe A zuerst sechs Bereiche aus.</p>
 <p class="taskInstruction">Beschreibe bei jedem ausgewählten Bereich genauer, was du damit meinst. Entscheide danach für dich persönlich: Brauche ich das ganz sicher für ein gutes Leben oder wünsche ich es mir eher zusätzlich?</p>
 <div class="needEditors" id="needEditors"></div>
 <div class="phaseNav"><button class="action" id="makeNeeds">Auswahl übernehmen und Erklärung anzeigen</button></div>
@@ -9221,7 +9221,7 @@ function updatePhase2Progress(){
     if(parent.id==="learn1"){
       hint.textContent=hasWorld?"":"Wähle zuerst eine Welt aus.";
     }else if(parent.id==="learn2"){
-      hint.textContent=aComplete?"":"Wähle in Aufgabe A zuerst fünf bis sechs Bereiche aus und bestätige deine Auswahl.";
+      hint.textContent=aComplete?"":"Wähle in Aufgabe A zuerst sechs Bereiche aus und bestätige deine Auswahl.";
     }else if(parent.id==="learn3"){
       hint.textContent=afterBOk?"":(!bComplete?"Bearbeite zuerst Aufgabe B vollständig.":"Lies zuerst die Erklärung zu den Voraussetzungen und bestätige «Gelesen und verstanden».");
     }else if(parent.id==="learn4"){
@@ -9305,54 +9305,44 @@ function renderSort(){
   const s=eState();
   let chosen=currentPersonalCategories();
 
-  /* Beim ersten Öffnen vorhandene Bereiche vorauswählen, maximal sechs. */
-  if(!chosen.length){
-    chosen=own.slice(0,Math.min(6,own.length));
-    ePatch({selectedPersonalCategories:chosen});
-  }
-
-  const needsSupplement=own.length<5;
+  const needsSupplement=own.length<6;
   const optionPool=needsSupplement
     ? [...own,...PERSONAL_FALLBACK_CATEGORIES.filter(x=>!own.includes(x))]
     : own;
 
-  const fixedFive=optionPool.length===5;
-  const slotCount=fixedFive?5:6;
+  /* Es werden immer genau sechs verschiedene Bereiche bestimmt. */
+  chosen=[...new Set(chosen.filter(x=>optionPool.includes(x)))].slice(0,6);
+  if(chosen.length<6){
+    chosen=chosen.concat(optionPool.filter(x=>!chosen.includes(x)).slice(0,6-chosen.length));
+    ePatch({selectedPersonalCategories:chosen,stageAComplete:false});
+  }
+
+  const slotCount=6;
 
   box.innerHTML=
     (needsSupplement
-      ? '<p class="categoryShortWarning"><strong>In deiner Welt sind bisher nur wenige verschiedene Bereiche benannt.</strong><br>Ergänze die Auswahl, bis du mindestens fünf Bereiche hast. Die zusätzlichen Bereiche helfen dir, unterschiedliche Seiten eines guten Lebens mitzudenken.</p>'
+      ? '<p class="categoryShortWarning"><strong>In deiner Welt sind bisher weniger als sechs verschiedene Bereiche benannt.</strong><br>Ergänze die Auswahl, bis du sechs Bereiche hast. Die zusätzlichen Bereiche helfen dir, unterschiedliche Seiten eines guten Lebens mitzudenken.</p>'
       : '')+
     '<div class="categorySelectGrid">'+
     Array.from({length:slotCount},(_,i)=>
       '<div class="categorySelectRow">'+
-        '<span class="slotNumber">'+(i+1)+'</span>'+
-        '<select class="personalCategorySelect" data-i="'+i+'"></select>'+
+        '<span class="slotNumber">'+(i+1)+'</span>'+ 
+        '<select class="personalCategorySelect" data-i="'+i+'"></select>'+ 
       '</div>'
     ).join("")+
-    '</div>'+
-    '<p class="smallNote">Wähle mindestens vier und höchstens sechs verschiedene Bereiche.</p>';
+    '</div>'+ 
+    '<p class="smallNote">Wähle sechs verschiedene Bereiche.</p>';
 
   const selects=[...box.querySelectorAll(".personalCategorySelect")];
 
   function refresh(markChanged=true){
-    const selectedCount=[...new Set(selects.map(x=>x.value).filter(Boolean))].length;
-
     selects.forEach((sel,i)=>{
       const old=sel.value;
       const taken=new Set(selects.filter((_,j)=>j!==i).map(x=>x.value).filter(Boolean));
-
-      /* Sobald fünf Bereiche ausgewählt sind, dürfen die fünf belegten
-         Dropdowns nicht nochmals auf „nicht verwenden“ gesetzt werden.
-         Ein bereits leeres sechstes Feld bleibt dagegen leer anwählbar,
-         damit dort jederzeit wieder ein sechster Bereich ergänzt werden kann. */
-      const allowEmpty=!fixedFive && (selectedCount>5 || !old);
-      const options=(allowEmpty?['<option value="">– nicht verwenden –</option>']:[])
-        .concat(optionPool.filter(x=>x===old||!taken.has(x)).map(x=>
-          '<option value="'+escapeHtml(x)+'" '+(x===old?'selected':'')+'>'+escapeHtml(x)+'</option>'
-        ));
+      const options=optionPool.filter(x=>x===old||!taken.has(x)).map(x=>
+        '<option value="'+escapeHtml(x)+'" '+(x===old?'selected':'')+'>'+escapeHtml(x)+'</option>'
+      );
       sel.innerHTML=options.join("");
-      if(old && !optionPool.includes(old))sel.value="";
     });
 
     const next=[...new Set(selects.map(x=>x.value).filter(Boolean))].slice(0,6);
@@ -9364,9 +9354,8 @@ function renderSort(){
   }
 
   selects.forEach((sel,i)=>{
-    sel.innerHTML=(fixedFive?'':'<option value="">– nicht verwenden –</option>')+
-      optionPool.map(x=>'<option value="'+escapeHtml(x)+'">'+escapeHtml(x)+'</option>').join("");
-    sel.value=chosen[i]||"";
+    sel.innerHTML=optionPool.map(x=>'<option value="'+escapeHtml(x)+'">'+escapeHtml(x)+'</option>').join("");
+    sel.value=chosen[i];
   });
   selects.forEach(sel=>sel.addEventListener("change",()=>refresh(true)));
   refresh(false);
@@ -9382,8 +9371,8 @@ function renderNeedEditors(){
   const saved=Array.isArray(s.personal)?s.personal:[];
 
   box.innerHTML="";
-  if(categories.length<5){
-    box.innerHTML='<p class="smallNote">Wähle in Aufgabe A zuerst mindestens fünf verschiedene Bereiche aus.</p>';
+  if(categories.length<6){
+    box.innerHTML='<p class="smallNote">Wähle in Aufgabe A zuerst sechs verschiedene Bereiche aus.</p>';
     return;
   }
 
@@ -9437,8 +9426,8 @@ function normalizedPersonal(personal){
 
 function savePersonal(){
   const rows=[...document.querySelectorAll(".needEditor")];
-  if(rows.length<5||rows.length>6){
-    alert("Wähle zuerst fünf bis sechs Bereiche aus.");
+  if(rows.length!==6){
+    alert("Wähle zuerst sechs Bereiche aus.");
     return false;
   }
 
@@ -10824,7 +10813,7 @@ function openNoveraAnalogVersion(){
   )+
 
   '<section class="sheet tableSheet">'+
-    '<div class="sheetHead"><span class="phaseTag">Phase 2 · Vorbereitung</span><h1>Was meinst du genau?</h1><p>Wähle fünf bis sechs Bereiche aus deinen Welten. Schreibe möglichst konkret auf, was du damit meinst. Entscheide zunächst in deinen eigenen Worten, ob du es für ein gutes Leben unbedingt brauchst oder ob du es dir zusätzlich wünschst.</p></div>'+
+    '<div class="sheetHead"><span class="phaseTag">Phase 2 · Vorbereitung</span><h1>Was meinst du genau?</h1><p>Wähle sechs Bereiche aus deinen Welten. Schreibe möglichst konkret auf, was du damit meinst. Entscheide zunächst in deinen eigenen Worten, ob du es für ein gutes Leben unbedingt brauchst oder ob du es dir zusätzlich wünschst.</p></div>'+
     '<table class="workTable"><thead><tr><th>Bereich aus meiner Welt</th><th>Was meine ich damit genau?</th><th>Meine Einschätzung</th></tr></thead><tbody>'+
       Array.from({length:6},()=>'<tr><td></td><td></td><td class="tick">□ brauche ich unbedingt<br>□ wünsche ich zusätzlich</td></tr>').join("")+
     '</tbody></table>'+
@@ -12435,7 +12424,7 @@ function initErarbeitung(){
         if(!s.selectedWorldId){
           alert("Du musst zuerst eine Welt auswählen.");
         }else if(card.id==="learn2" && s.stageAComplete!==true){
-          alert("Wähle in Aufgabe A zuerst fünf bis sechs Bereiche aus und bestätige deine Auswahl.");
+          alert("Wähle in Aufgabe A zuerst sechs Bereiche aus und bestätige deine Auswahl.");
         }else if((card.id==="learn3"||card.id==="learn4"||card.id==="learn5"||card.id==="learn7") && s.stageBComplete!==true){
           alert("Du musst zuerst Aufgabe B fertig bearbeiten.");
         }else if((card.id==="learn3"||card.id==="learn4"||card.id==="learn5"||card.id==="learn7") && s.requirementsUnderstood!==true){
@@ -12501,8 +12490,8 @@ function initErarbeitung(){
 
   id("confirmSort").onclick=()=>{
     const chosen=currentPersonalCategories();
-    if(chosen.length<5||chosen.length>6){
-      alert("Wähle mindestens fünf und höchstens sechs verschiedene Bereiche aus.");
+    if(chosen.length!==6){
+      alert("Wähle sechs verschiedene Bereiche aus.");
       return;
     }
     if(new Set(chosen).size!==chosen.length){
