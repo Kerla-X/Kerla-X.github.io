@@ -893,7 +893,7 @@ button.full-width{
   box-shadow:
     inset 0 0 0 2px rgba(255,255,255,.24),
     0 0 6px rgba(73,189,242,.52);
-  z-index:1;
+  z-index:4;
 }
 .pixelTreeDiamond::before{
   content:"";
@@ -913,11 +913,11 @@ button.full-width{
       0 0 5px rgba(73,189,242,.46);
   }
   50%{
-    filter:brightness(1.95);
+    filter:brightness(1.55);
     box-shadow:
-      inset 0 0 0 2px rgba(255,255,255,.42),
-      0 0 16px rgba(120,230,255,1),
-      0 0 28px rgba(73,189,242,.72);
+      inset 0 0 0 2px rgba(255,255,255,.34),
+      0 0 11px rgba(120,230,255,.78),
+      0 0 18px rgba(73,189,242,.46);
   }
   100%{
     filter:brightness(1);
@@ -5704,7 +5704,7 @@ details.learningGoals{
 <article class="learnCard phase2Lockable phase2Locked" id="learn3"><span class="taskLabel">Aufgabe C</span><p class="phase2LockHint">Zuerst Aufgabe B fertig bearbeiten.</p><div class="treeStory treeStorySimple">
 <div class="treeStoryCopy">
 <h3>Der magische Baum</h3>
-<p data-t="t3.story">Auf one.zero braucht es keine natürlichen oder gesellschaftlichen Voraussetzungen um Dinge für ein gutes Leben zu ermöglichen. Hier wächst ein magischer Baum. Seine Früchte können dir geben, was du brauchst. Für alles was du dir erfüllst, werden zwei Früchte geerntet. Nach jeder Runde wachsen über Nacht neue Früchte. Wie viele es genau sind, siehst du erst nach der Nacht.</p>
+<p data-t="t3.story">Auf one.zero braucht es keine natürlichen oder gesellschaftlichen Voraussetzungen um Dinge für ein gutes Leben zu ermöglichen. Hier wächst ein magischer Baum. Seine Früchte können dir geben, was du möchtest. Für alles was du dir erfüllst, werden zwei Früchte geerntet. Nach jeder Runde wachsen über Nacht neue Früchte. Wie viele es genau sind, siehst du erst nach der Nacht.</p>
 </div>
 <div class="treeStoryMedia">
 <img alt="Magischer Baum auf one.zero" class="treeStoryImage" src="baum.png"/>
@@ -9316,12 +9316,15 @@ function renderSort(){
     ? [...own,...PERSONAL_FALLBACK_CATEGORIES.filter(x=>!own.includes(x))]
     : own;
 
+  const fixedFive=optionPool.length===5;
+  const slotCount=fixedFive?5:6;
+
   box.innerHTML=
     (needsSupplement
       ? '<p class="categoryShortWarning"><strong>In deiner Welt sind bisher nur wenige verschiedene Bereiche benannt.</strong><br>Ergänze die Auswahl, bis du mindestens fünf Bereiche hast. Die zusätzlichen Bereiche helfen dir, unterschiedliche Seiten eines guten Lebens mitzudenken.</p>'
       : '')+
     '<div class="categorySelectGrid">'+
-    Array.from({length:6},(_,i)=>
+    Array.from({length:slotCount},(_,i)=>
       '<div class="categorySelectRow">'+
         '<span class="slotNumber">'+(i+1)+'</span>'+
         '<select class="personalCategorySelect" data-i="'+i+'"></select>'+
@@ -9333,10 +9336,18 @@ function renderSort(){
   const selects=[...box.querySelectorAll(".personalCategorySelect")];
 
   function refresh(markChanged=true){
+    const selectedCount=[...new Set(selects.map(x=>x.value).filter(Boolean))].length;
+
     selects.forEach((sel,i)=>{
       const old=sel.value;
       const taken=new Set(selects.filter((_,j)=>j!==i).map(x=>x.value).filter(Boolean));
-      const options=['<option value="">– nicht verwenden –</option>']
+
+      /* Sobald fünf Bereiche ausgewählt sind, dürfen die fünf belegten
+         Dropdowns nicht nochmals auf „nicht verwenden“ gesetzt werden.
+         Ein bereits leeres sechstes Feld bleibt dagegen leer anwählbar,
+         damit dort jederzeit wieder ein sechster Bereich ergänzt werden kann. */
+      const allowEmpty=!fixedFive && (selectedCount>5 || !old);
+      const options=(allowEmpty?['<option value="">– nicht verwenden –</option>']:[])
         .concat(optionPool.filter(x=>x===old||!taken.has(x)).map(x=>
           '<option value="'+escapeHtml(x)+'" '+(x===old?'selected':'')+'>'+escapeHtml(x)+'</option>'
         ));
@@ -9353,7 +9364,7 @@ function renderSort(){
   }
 
   selects.forEach((sel,i)=>{
-    sel.innerHTML='<option value="">– nicht verwenden –</option>'+
+    sel.innerHTML=(fixedFive?'':'<option value="">– nicht verwenden –</option>')+
       optionPool.map(x=>'<option value="'+escapeHtml(x)+'">'+escapeHtml(x)+'</option>').join("");
     sel.value=chosen[i]||"";
   });
