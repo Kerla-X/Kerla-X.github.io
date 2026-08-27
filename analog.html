@@ -1895,6 +1895,107 @@ main{
 .page[data-page="15"] .analogChart svg{height:72mm!important}
 .coverWorld .phase1StartWorld{display:block!important;width:100%!important;height:auto!important;max-height:58mm!important}
 
+
+/* ===== Seite 9 kompakter ===== */
+.page[data-page="9"] .personRollBox{
+  margin-bottom:.8mm!important;
+}
+.page[data-page="9"] .compactAgreement{
+  margin-top:.8mm!important;
+  margin-bottom:.8mm!important;
+  padding:1.6mm 2.2mm!important;
+}
+.page[data-page="9"] .compactAgreement p{
+  margin:0!important;
+  font-size:8pt!important;
+  line-height:1.25!important;
+}
+.page[data-page="9"] .compactAgreement .writeLines{
+  margin-top:.8mm!important;
+  gap:0!important;
+}
+.page[data-page="9"] .compactAgreement .writeLines span{
+  height:3mm!important;
+}
+.page[data-page="9"] .copyTemplateRef{
+  margin:.7mm 0!important;
+  font-size:7.7pt!important;
+  line-height:1.2!important;
+}
+.page[data-page="9"] .sectionRule{
+  margin:.8mm 0!important;
+}
+.page[data-page="9"] .compactF{
+  margin-top:.7mm!important;
+  margin-bottom:0!important;
+  padding:1.5mm 2.2mm!important;
+}
+.page[data-page="9"] .compactF .infoBody{
+  font-size:8pt!important;
+  line-height:1.25!important;
+}
+.page[data-page="9"] .compactF .writeLines{
+  margin-top:.8mm!important;
+  gap:0!important;
+}
+.page[data-page="9"] .compactF .writeLines span{
+  height:3mm!important;
+}
+.page[data-page="15"] .analogChart svg{
+  display:block!important;
+  width:100%!important;
+  height:72mm!important;
+}
+
+
+/* ===== Seite 6: Baumgrafik + Pultaufsicht links, Nachtregel rechts ===== */
+.page[data-page="6"] .deskRow{
+  grid-template-columns:68mm minmax(0,1fr)!important;
+  gap:4mm!important;
+  align-items:start!important;
+}
+.page[data-page="6"] .treeVisualStack{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:1.5mm!important;
+  min-width:0!important;
+}
+.page[data-page="6"] .analogTreeOriginal{
+  display:block!important;
+  width:auto!important;
+  height:auto!important;
+  max-width:38mm!important;
+  max-height:38mm!important;
+  object-fit:contain!important;
+}
+.page[data-page="6"] .treeVisualStack .deskDiagram{
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  max-height:43mm!important;
+  margin:0!important;
+}
+.page[data-page="6"] .treeNightHint{
+  margin:0!important;
+}
+@media print{
+  .page[data-page="6"] .deskRow{
+    gap:3mm!important;
+  }
+  .page[data-page="6"] .treeVisualStack{
+    gap:1mm!important;
+  }
+  .page[data-page="6"] .analogTreeOriginal{
+    max-width:34mm!important;
+    max-height:34mm!important;
+  }
+  .page[data-page="6"] .treeVisualStack .deskDiagram{
+    max-height:39mm!important;
+  }
+}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -2014,6 +2115,8 @@ main{
 <li>Spiele <strong>mindestens 10 Runden</strong> oder bis der Baum kollabiert. Beobachte, wie sich der Bestand verändert und wie es dem Baum geht.</li>
 </ol></div></div>
 <div class="deskRow">
+<div class="treeVisualStack">
+<img class="analogTreeOriginal" src="baum.png" alt="Der magische Baum"/>
 <svg aria-label="Aufsicht auf einen Schülertisch mit Baumvorlage und 22 Post-it-Früchten" class="deskDiagram" role="img" viewBox="0 0 560 350">
 <rect fill="#d7b892" height="275" rx="18" stroke="#9b7657" stroke-width="4" width="500" x="30" y="24"></rect>
 <rect fill="#fff" height="238" rx="6" stroke="#bbb" stroke-width="2" width="270" x="145" y="43"></rect>
@@ -2025,6 +2128,7 @@ main{
 <g fill="#f4c84a" stroke="#b49327" stroke-width="1.2"><rect x="205" y="86" width="16" height="16" rx="2"></rect><rect x="235" y="78" width="16" height="16" rx="2"></rect><rect x="265" y="80" width="16" height="16" rx="2"></rect><rect x="295" y="83" width="16" height="16" rx="2"></rect><rect x="325" y="91" width="16" height="16" rx="2"></rect><rect x="190" y="112" width="16" height="16" rx="2"></rect><rect x="220" y="106" width="16" height="16" rx="2"></rect><rect x="250" y="108" width="16" height="16" rx="2"></rect><rect x="280" y="108" width="16" height="16" rx="2"></rect><rect x="310" y="112" width="16" height="16" rx="2"></rect><rect x="340" y="118" width="16" height="16" rx="2"></rect><rect x="197" y="140" width="16" height="16" rx="2"></rect><rect x="227" y="136" width="16" height="16" rx="2"></rect><rect x="257" y="138" width="16" height="16" rx="2"></rect><rect x="287" y="138" width="16" height="16" rx="2"></rect><rect x="317" y="142" width="16" height="16" rx="2"></rect><rect x="347" y="146" width="16" height="16" rx="2"></rect><rect x="212" y="168" width="16" height="16" rx="2"></rect><rect x="242" y="164" width="16" height="16" rx="2"></rect><rect x="272" y="166" width="16" height="16" rx="2"></rect><rect x="302" y="168" width="16" height="16" rx="2"></rect><rect x="332" y="170" width="16" height="16" rx="2"></rect></g>
 <text fill="#555" font-size="14" text-anchor="middle" x="280" y="326">Aufsicht auf dein Pult</text>
 </svg>
+</div>
 <div class="infoBox hint treeNightHint"><div class="infoLabel">ⓘ Hinweis</div><div class="infoBody">
 <strong>Nachtregel</strong>
 <p>Der <strong>Restbestand nach der Ernte</strong> entscheidet, wie stark sich der Baum erholen kann. Der Würfel entscheidet, wie viele Früchte genau nachwachsen. Die entsprechende Zahl wird in der Tabelle abgelesen.</p>
@@ -2105,7 +2209,7 @@ main{
 </section><section class="page" data-page="9">
 <div class="pageInner">
 <div class="pageTop"><span>PHASE 2 · AUFGABE E &amp; F</span><span>Seite 9</span></div>
-<h1 class="pageTitle">Person B, eure Abmachung und Reflexion</h1>
+<h1 class="pageTitle">Person B, Abmachung und Reflexion</h1>
 <div class="pageBody">
 <span class="taskBadge">Aufgabe E</span>
 <section class="personRollBox">
@@ -2127,19 +2231,15 @@ main{
 </div>
 </div>
 </section>
-
-<div class="agreementBox">
-<h3>Eure Abmachung</h3>
-<p>Schreibt auf, wie ihr gemeinsam entscheiden wollt, welche Needs und Desires erfüllt werden.</p>
-<div class="writeLines"><span></span><span></span></div>
+<div class="agreementBox compactAgreement">
+<p><strong>Abmachung:</strong> Schreibt auf, wie ihr gemeinsam entscheiden wollt, welche Needs und Desires erfüllt werden.</p>
+<div class="writeLines"><span></span></div>
 </div>
 <p class="copyTemplateRef"><strong>Für die Auswertung aller 10 gemeinsamen Runden die Kopiervorlage auf Seite 15 benutzen.</strong></p>
 <div class="sectionRule"></div>
 <span class="taskBadge">Aufgabe F</span>
-<div class="infoBox reflect compactF"><div class="infoLabel">💭 Reflexion</div><div class="infoBody">Denkt über eure gemeinsamen Runden nach:
-<ul><li>War eure Verteilung für Person A und Person B gerecht? Warum?</li>
-<li>Hat eure Abmachung funktioniert? Würdet ihr sie für weitere Runden beibehalten oder verändern? Warum?</li></ul>
-<div class="writeLines"><span></span><span></span><span></span></div></div></div>
+<div class="infoBox reflect compactF"><div class="infoLabel">💭 Reflexion</div><div class="infoBody"><strong>War eure Verteilung für Person A und Person B gerecht? Wie hat die Abmachung funktioniert?</strong>
+<div class="writeLines"><span></span></div></div></div>
 </div></div></section><section class="page phaseStartPage" data-page="10">
 <div class="pageInner">
 <div class="pageTop"><span>PHASE 3</span><span>Seite 10</span></div>
@@ -2219,7 +2319,7 @@ Darum ist wichtig zu fragen: <strong>Was kann das Modell zeigen – und was nich
 <table class="workTable miniProtocol roundTableLarge analogRoundTable">
 <thead><tr><th>Runde</th><th>Start</th><th>genutzt</th><th>übrig</th><th>Würfel</th><th>+ neu</th><th>Ende Nacht</th><th>Belastung</th></tr></thead>
 <tbody><tr class="roundZeroExample"><td>0</td><td>22</td><td>0</td><td>22</td><td>–</td><td>0</td><td>22</td><td>0</td></tr><tr><td>1</td><td>22</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>7</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>8</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>9</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>10</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table>
-<div class="analogChart"><div class="analogChartTitle">Fruchtbestand im Verlauf</div>
+<div class="analogChart"><div class="analogChartTitle">Fruchtbestand im Verlauf</div><svg viewBox="0 0 720 260" role="img" aria-label="Fruchtbestand im Verlauf"><line x1="55" y1="222.00" x2="700" y2="222.00" class="chartGridLine"/><text x="46" y="226.00" text-anchor="end" class="chartLabel">0</text><line x1="55" y1="203.82" x2="700" y2="203.82" class="chartGridLine"/><text x="46" y="207.82" text-anchor="end" class="chartLabel">2</text><line x1="55" y1="185.64" x2="700" y2="185.64" class="chartGridLine"/><text x="46" y="189.64" text-anchor="end" class="chartLabel">4</text><line x1="55" y1="167.45" x2="700" y2="167.45" class="chartGridLine"/><text x="46" y="171.45" text-anchor="end" class="chartLabel">6</text><line x1="55" y1="149.27" x2="700" y2="149.27" class="chartGridLine"/><text x="46" y="153.27" text-anchor="end" class="chartLabel">8</text><line x1="55" y1="131.09" x2="700" y2="131.09" class="chartGridLine"/><text x="46" y="135.09" text-anchor="end" class="chartLabel">10</text><line x1="55" y1="112.91" x2="700" y2="112.91" class="chartGridLine"/><text x="46" y="116.91" text-anchor="end" class="chartLabel">12</text><line x1="55" y1="94.73" x2="700" y2="94.73" class="chartGridLine"/><text x="46" y="98.73" text-anchor="end" class="chartLabel">14</text><line x1="55" y1="76.55" x2="700" y2="76.55" class="chartGridLine"/><text x="46" y="80.55" text-anchor="end" class="chartLabel">16</text><line x1="55" y1="58.36" x2="700" y2="58.36" class="chartGridLine"/><text x="46" y="62.36" text-anchor="end" class="chartLabel">18</text><line x1="55" y1="40.18" x2="700" y2="40.18" class="chartGridLine"/><text x="46" y="44.18" text-anchor="end" class="chartLabel">20</text><line x1="55" y1="22.00" x2="700" y2="22.00" class="chartGridLine"/><text x="46" y="26.00" text-anchor="end" class="chartLabel">22</text><line x1="55.00" y1="22" x2="55.00" y2="222" class="chartGridLine"/><text x="55.00" y="242" text-anchor="middle" class="chartLabel">0</text><line x1="119.50" y1="22" x2="119.50" y2="222" class="chartGridLine"/><text x="119.50" y="242" text-anchor="middle" class="chartLabel">1</text><line x1="184.00" y1="22" x2="184.00" y2="222" class="chartGridLine"/><text x="184.00" y="242" text-anchor="middle" class="chartLabel">2</text><line x1="248.50" y1="22" x2="248.50" y2="222" class="chartGridLine"/><text x="248.50" y="242" text-anchor="middle" class="chartLabel">3</text><line x1="313.00" y1="22" x2="313.00" y2="222" class="chartGridLine"/><text x="313.00" y="242" text-anchor="middle" class="chartLabel">4</text><line x1="377.50" y1="22" x2="377.50" y2="222" class="chartGridLine"/><text x="377.50" y="242" text-anchor="middle" class="chartLabel">5</text><line x1="442.00" y1="22" x2="442.00" y2="222" class="chartGridLine"/><text x="442.00" y="242" text-anchor="middle" class="chartLabel">6</text><line x1="506.50" y1="22" x2="506.50" y2="222" class="chartGridLine"/><text x="506.50" y="242" text-anchor="middle" class="chartLabel">7</text><line x1="571.00" y1="22" x2="571.00" y2="222" class="chartGridLine"/><text x="571.00" y="242" text-anchor="middle" class="chartLabel">8</text><line x1="635.50" y1="22" x2="635.50" y2="222" class="chartGridLine"/><text x="635.50" y="242" text-anchor="middle" class="chartLabel">9</text><line x1="700.00" y1="22" x2="700.00" y2="222" class="chartGridLine"/><text x="700.00" y="242" text-anchor="middle" class="chartLabel">10</text><line x1="55" y1="22" x2="55" y2="222" class="chartAxis"/><line x1="55" y1="222" x2="700" y2="222" class="chartAxis"/><text x="377.50" y="256" text-anchor="middle" class="chartAxisTitle">Runde</text><text x="14" y="122.00" text-anchor="middle" transform="rotate(-90 14 122.00)" class="chartAxisTitle">Früchte</text></svg><p class="chartHint">Nach jeder Nacht den neuen Fruchtbestand als Punkt eintragen und die Punkte verbinden.</p></div>
 </div></div></section><section class="page materialPage" data-page="16">
 <div class="pageInner">
 <div class="pageTop"><span>MATERIAL · PHASE 3</span><span>Seite 16</span></div>
