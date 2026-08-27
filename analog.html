@@ -1996,6 +1996,57 @@ main{
   }
 }
 
+
+/* ===== Feinanpassung Seite 6 / Seite 9 ===== */
+
+/* Baumgrafik auf Seite 6 gleich breit wie die Pultaufsicht, proportional skaliert */
+.page[data-page="6"] .analogTreeOriginal{
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  height:auto!important;
+  max-height:none!important;
+  object-fit:contain!important;
+}
+@media print{
+  .page[data-page="6"] .analogTreeOriginal{
+    width:100%!important;
+    max-width:100%!important;
+    height:auto!important;
+    max-height:none!important;
+  }
+}
+
+/* Seite 9: wieder etwas mehr Luft, aber kompakt genug für Aufgabe F */
+.page[data-page="9"] .personRollBox{
+  margin-bottom:1.6mm!important;
+}
+.page[data-page="9"] .compactAgreement{
+  margin-top:1.4mm!important;
+  margin-bottom:1.5mm!important;
+  padding:1.8mm 2.3mm!important;
+}
+.page[data-page="9"] .compactAgreement .writeLines{
+  margin-top:1.2mm!important;
+}
+.page[data-page="9"] .copyTemplateRef{
+  margin:1.5mm 0 1.7mm!important;
+}
+.page[data-page="9"] .compactF{
+  margin-top:1.2mm!important;
+  margin-bottom:0!important;
+  padding:2mm 2.8mm!important;
+}
+
+/* Reflexionslinien wie bei den übrigen Reflexionsboxen */
+.page[data-page="9"] .compactF .writeLines{
+  margin-top:1mm!important;
+  gap:1.5mm!important;
+}
+.page[data-page="9"] .compactF .writeLines span{
+  height:3.2mm!important;
+}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -2236,10 +2287,9 @@ main{
 <div class="writeLines"><span></span></div>
 </div>
 <p class="copyTemplateRef"><strong>Für die Auswertung aller 10 gemeinsamen Runden die Kopiervorlage auf Seite 15 benutzen.</strong></p>
-<div class="sectionRule"></div>
 <span class="taskBadge">Aufgabe F</span>
 <div class="infoBox reflect compactF"><div class="infoLabel">💭 Reflexion</div><div class="infoBody"><strong>War eure Verteilung für Person A und Person B gerecht? Wie hat die Abmachung funktioniert?</strong>
-<div class="writeLines"><span></span></div></div></div>
+<div class="writeLines"><span></span><span></span><span></span></div></div></div>
 </div></div></section><section class="page phaseStartPage" data-page="10">
 <div class="pageInner">
 <div class="pageTop"><span>PHASE 3</span><span>Seite 10</span></div>
