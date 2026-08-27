@@ -1886,6 +1886,10 @@ main{
 .page[data-page="6"] .treeNightHint .infoBody,
 .page[data-page="6"] .treeNightHint p,
 .page[data-page="6"] .treeNightHint li{font-size:7.7pt!important;line-height:1.3!important}
+.page[data-page="6"] .nightRuleTable th,
+.page[data-page="6"] .nightRuleTable td{padding:.65mm .45mm!important;text-align:center!important;font-size:7pt!important;line-height:1.15!important}
+.page[data-page="6"] .nightRuleTable th:first-child,
+.page[data-page="6"] .nightRuleTable td:first-child{width:17mm!important;text-align:center!important}
 .page[data-page="6"] .analogRoundTable tbody tr{height:6.2mm!important}
 .copyTemplateRef{margin:1.2mm 0 2mm!important;font-size:8.2pt!important;line-height:1.35!important}
 .page[data-page="9"] .agreementBox .writeLines{min-height:0!important}
@@ -2224,22 +2228,23 @@ main{
 <strong>Nachtregel</strong>
 <p>Der <strong>Restbestand nach der Ernte</strong> entscheidet, wie stark sich der Baum erholen kann. Der Würfel entscheidet, wie viele Früchte genau nachwachsen. Die entsprechende Zahl wird in der Tabelle abgelesen.</p>
 <table class="workTable nightRuleTable">
-<thead><tr><th>Früchte übrig</th><th>Würfel 1–2</th><th>Würfel 3–4</th><th>Würfel 5–6</th></tr></thead>
+<thead><tr><th>Früchte übrig</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead>
 <tbody>
-<tr><td>0–2</td><td>+3</td><td>+4</td><td>+5</td></tr>
-<tr><td>3–5</td><td>+4</td><td>+5</td><td>+6</td></tr>
-<tr><td>6–9</td><td>+3</td><td>+4</td><td>+5</td></tr>
-<tr><td>10–14</td><td>+2</td><td>+3</td><td>+4</td></tr>
-<tr><td>15–21</td><td>+1</td><td>+2</td><td>+3</td></tr>
-<tr><td>22</td><td>+0</td><td>+0</td><td>+0</td></tr>
+<tr><td>0–1</td><td>+3</td><td>+4</td><td>+4</td><td>+5</td><td>+6</td><td>+6</td></tr>
+<tr><td>2–4</td><td>+4</td><td>+5</td><td>+6</td><td>+6</td><td>+7</td><td>+8</td></tr>
+<tr><td>5–8</td><td>+7</td><td>+8</td><td>+9</td><td>+10</td><td>+10</td><td>+11</td></tr>
+<tr><td>9–13</td><td>+5</td><td>+6</td><td>+7</td><td>+8</td><td>+9</td><td>+9</td></tr>
+<tr><td>14–17</td><td>+2</td><td>+3</td><td>+4</td><td>+5</td><td>+6</td><td>+7</td></tr>
+<tr><td>18–21</td><td>+0</td><td>+1</td><td>+1</td><td>+2</td><td>+2</td><td>+3</td></tr>
+<tr><td>22</td><td>+0</td><td>+0</td><td>+0</td><td>+0</td><td>+0</td><td>+0</td></tr>
 </tbody></table>
-<p><strong>Nie mehr als 22 Früchte:</strong> Wenn die Rechnung über 22 führt, bleibt der Baum bei 22.</p>
-<strong>Baumerschöpfung</strong><p><strong>Belastung</strong> ist ein Spielwert dafür, wie stark der Baum in den letzten Runden beansprucht wurde. Er startet in Runde 0 bei <strong>0</strong>. Nach jeder Runde wird der neue Belastungswert in die letzte Spalte der Tabelle eingetragen.</p>
+<p><strong>Nie mehr als 22 Früchte:</strong> Es wachsen höchstens so viele Früchte nach, bis wieder 22 am Baum hängen.</p>
+<strong>Baumerschöpfung</strong><p><strong>Belastung</strong> ist ein Spielwert dafür, wie stark der Baum beansprucht wurde. Sie startet in Runde 0 bei <strong>0</strong>. Tragt nach jeder Runde den neuen Belastungswert in die letzte Spalte der Tabelle ein.</p>
 <ul>
-<li>Nach der Ernte <strong>0 Früchte</strong> übrig: +2 Belastungspunkte.</li>
-<li>Nach der Ernte <strong>1–2 Früchte</strong> übrig: +1 Belastungspunkt.</li>
-<li>Nach der Ernte <strong>3 oder mehr Früchte</strong> übrig: −1 Belastungspunkt (nicht unter 0).</li>
-<li>In den Runden 1–6 werden höchstens 2 Belastungspunkte notiert. <strong>Ab Runde 7</strong> kollabiert der Baum, sobald eine neue starke Ernte den Wert auf 3 oder mehr bringen würde. Dann wächst nichts mehr nach und der Durchlauf endet.</li>
+<li>Bleiben nach der Ernte <strong>0 oder 1 Frucht</strong> übrig: +1 Belastungspunkt.</li>
+<li>Erreicht die Belastung dadurch <strong>5 Punkte</strong>, kollabiert der Baum sofort. Dann wird nicht mehr gewürfelt, es wächst nichts mehr nach und der Durchlauf endet.</li>
+<li>Kollabiert der Baum nicht, würfelt und bestimmt den Nachwuchs mit der Tabelle.</li>
+<li>Hat der Baum am Ende der Nacht wieder <strong>mindestens 6 Früchte</strong>, sinkt die Belastung um 1 Punkt (nicht unter 0).</li>
 </ul>
 </div></div>
 </div>
