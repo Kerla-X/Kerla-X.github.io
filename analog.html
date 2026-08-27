@@ -2047,6 +2047,36 @@ main{
   height:3.2mm!important;
 }
 
+
+/* ===== Feinanpassung Abstände Seite 6 / Seite 9 ===== */
+
+/* Pultaufsicht etwas weiter vom Baum weg */
+.page[data-page="6"] .treeVisualStack{
+  gap:2.4mm!important;
+}
+
+/* Seite 9: etwas mehr Luft zwischen Kopiervorlagen-Hinweis und Aufgabe F */
+.page[data-page="9"] .copyTemplateRef{
+  margin:1.8mm 0 2.6mm!important;
+}
+.page[data-page="9"] .taskBadge + .compactF{
+  margin-top:1.5mm!important;
+}
+
+/* Abmachung: Schreiblinie mit demselben Abstand zum Text wie Reflexionsfelder */
+.page[data-page="9"] .compactAgreement .writeLines{
+  margin-top:1.4mm!important;
+}
+
+/* Aufgabe F: Schreiblinien exakt auf das allgemeine Reflexionsbox-Mass zurücksetzen */
+.page[data-page="9"] .compactF .writeLines{
+  margin-top:1.4mm!important;
+  gap:2.6mm!important;
+}
+.page[data-page="9"] .compactF .writeLines span{
+  height:4.6mm!important;
+}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
