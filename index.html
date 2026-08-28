@@ -2805,10 +2805,28 @@ button.action,
   background:#fff;
   padding:12px 12px 8px;
 }
-.fruitChartTitle{
+.fruitChartHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  flex-wrap:wrap;
   margin:0 0 4px;
+}
+.fruitChartTitle{
+  margin:0;
   font-size:15px;
   font-weight:800;
+}
+.treeLoadStatus{
+  display:inline-flex;
+  align-items:center;
+  background:#f4f1ea;
+  border-radius:8px;
+  padding:7px 10px;
+  font-size:14px;
+  font-weight:700;
+  line-height:1.2;
 }
 .fruitChartSvg{
   display:block;
@@ -9632,7 +9650,7 @@ function fruitSeriesFromLog(log,start=TREE_START){
   return values;
 }
 
-function renderFruitChart(containerId,log,start=TREE_START,max=TREE_MAX){
+function renderFruitChart(containerId,log,start=TREE_START,max=TREE_MAX,exhaustionScore=0){
   const box=document.getElementById(containerId);
   if(!box)return;
 
@@ -9646,7 +9664,9 @@ function renderFruitChart(containerId,log,start=TREE_START,max=TREE_MAX){
   const y=v=>pad.t+((max-v)/max)*innerH;
 
   const yTicks=[0,Math.round(max/2),max];
-  let svg='<p class="fruitChartTitle">Früchte im Verlauf</p>';
+  const score=Math.max(0,Number(exhaustionScore)||0);
+  const loadLabel=score>=5?"Belastung: kritisch":score>=3?"Belastung: hoch":score>=1?"Belastung: erhöht":"";
+  let svg='<div class="fruitChartHeader"><p class="fruitChartTitle">Früchte im Verlauf</p>'+(loadLabel?'<span class="treeLoadStatus">'+loadLabel+'</span>':'')+'</div>';
   svg+='<svg class="fruitChartSvg" viewBox="0 0 '+width+' '+height+'" role="img" aria-label="Fruchtbestand nach jeder Runde">';
 
   yTicks.forEach(v=>{
@@ -9716,7 +9736,7 @@ function renderPersonalSim(){
 
   renderTaskCRequirements();
   drawTree(q.tree);
-  renderFruitChart("personalFruitChart",q.log||[],TREE_START,q.max||TREE_MAX);
+  renderFruitChart("personalFruitChart",q.log||[],TREE_START,q.max||TREE_MAX,q.exhaustionScore);
   treeCount.textContent=q.tree;
   const maxEl=document.getElementById("treeMaxCount");
   if(maxEl)maxEl.textContent=q.max||personalTreeMax(p.length);
@@ -10122,7 +10142,7 @@ function renderAlloc(){
   setStatus("groupBDesires",last?.desB||0,2,false);
 
   drawTreeTo("groupFruitLayer",q.tree);
-  renderFruitChart("groupFruitChart",q.log||[],TREE_START,TREE_MAX);
+  renderFruitChart("groupFruitChart",q.log||[],TREE_START,TREE_MAX,q.exhaustionScore);
 
   const selectedSet=new Set(Array.isArray(q.selected)?q.selected:[]);
   const mk=(p,pi)=>
