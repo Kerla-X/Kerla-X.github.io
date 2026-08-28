@@ -9650,7 +9650,7 @@ function fruitSeriesFromLog(log,start=TREE_START){
   return values;
 }
 
-function renderFruitChart(containerId,log,start=TREE_START,max=TREE_MAX,exhaustionScore=0){
+function renderFruitChart(containerId,log,start=TREE_START,max=TREE_MAX,exhaustionScore=0,collapsed=false){
   const box=document.getElementById(containerId);
   if(!box)return;
 
@@ -9665,7 +9665,7 @@ function renderFruitChart(containerId,log,start=TREE_START,max=TREE_MAX,exhausti
 
   const yTicks=[0,Math.round(max/2),max];
   const score=Math.max(0,Number(exhaustionScore)||0);
-  const loadLabel=score>=5?"Belastung: kritisch":score>=3?"Belastung: hoch":score>=1?"Belastung: erhöht":"";
+  const loadLabel=collapsed===true?"Baum: kollabiert":score>=5?"Belastung: kritisch":score>=3?"Belastung: hoch":score>=1?"Belastung: erhöht":"";
   let svg='<div class="fruitChartHeader"><p class="fruitChartTitle">Früchte im Verlauf</p>'+(loadLabel?'<span class="treeLoadStatus">'+loadLabel+'</span>':'')+'</div>';
   svg+='<svg class="fruitChartSvg" viewBox="0 0 '+width+' '+height+'" role="img" aria-label="Fruchtbestand nach jeder Runde">';
 
@@ -9736,7 +9736,7 @@ function renderPersonalSim(){
 
   renderTaskCRequirements();
   drawTree(q.tree);
-  renderFruitChart("personalFruitChart",q.log||[],TREE_START,q.max||TREE_MAX,q.exhaustionScore);
+  renderFruitChart("personalFruitChart",q.log||[],TREE_START,q.max||TREE_MAX,q.exhaustionScore,q.collapsed===true);
   treeCount.textContent=q.tree;
   const maxEl=document.getElementById("treeMaxCount");
   if(maxEl)maxEl.textContent=q.max||personalTreeMax(p.length);
@@ -10142,7 +10142,7 @@ function renderAlloc(){
   setStatus("groupBDesires",last?.desB||0,2,false);
 
   drawTreeTo("groupFruitLayer",q.tree);
-  renderFruitChart("groupFruitChart",q.log||[],TREE_START,TREE_MAX,q.exhaustionScore);
+  renderFruitChart("groupFruitChart",q.log||[],TREE_START,TREE_MAX,q.exhaustionScore,q.collapsed===true);
 
   const selectedSet=new Set(Array.isArray(q.selected)?q.selected:[]);
   const mk=(p,pi)=>
